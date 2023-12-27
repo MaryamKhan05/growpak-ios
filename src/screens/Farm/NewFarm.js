@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Modal,
   TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import MapView, {
   Marker,
@@ -17,7 +18,7 @@ import MapView, {
 } from "react-native-maps";
 import ViewShot from "react-native-view-shot";
 import Foundation from "react-native-vector-icons/Foundation";
-import Entypo from 'react-native-vector-icons/Entypo'
+import Entypo from "react-native-vector-icons/Entypo";
 import * as Location from "expo-location";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import {
@@ -58,6 +59,7 @@ const NewFarm = () => {
   const [location, setLocation] = useState(null);
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
+  const [locationModal, setLocationModal] = useState(false);
 
   // top navigation buttons state
   const [farm, setFarm] = useState(false);
@@ -108,20 +110,20 @@ const NewFarm = () => {
     }
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permission to access location was denied");
+  //       return;
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setLongitude(location.coords.longitude);
-      setLatitude(location.coords.latitude);
-    })();
-  }, []);
+  //     let location = await Location.getCurrentPositionAsync({});
+  //     setLocation(location);
+  //     setLongitude(location.coords.longitude);
+  //     setLatitude(location.coords.latitude);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     if (polygonPoints.length == 1) {
@@ -213,7 +215,6 @@ const NewFarm = () => {
       (area * squareDegreesToAcresAtEquator) /
       Math.cos((latitude * Math.PI) / 180);
 
-
     const finalArea = areaInAcres;
 
     let a = areaInAcres.toFixed(2);
@@ -244,6 +245,36 @@ const NewFarm = () => {
       (error) => console.log("error capturing ss", error)
     );
   };
+
+  const checkLocationPermission = async () => {
+    let { status } = await Location.getForegroundPermissionsAsync();
+    console.log(status, "the status of the location permissions on newfarm ");
+    if (status !== "granted") {
+      setLocationModal(true); // Enable the modal if permission is not granted
+    }
+  };
+  const requestLocationPermission = async () => {
+    try {
+      setLocationModal(false); 
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        // If permission is granted, proceed with getting the location
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        setLongitude(location.coords.longitude);
+        setLatitude(location.coords.latitude);
+       // Close the modal after granting permission
+      } else {
+        console.log("Permission to access location was denied");
+      }
+    } catch (error) {
+      console.error("Error getting location:", error);
+    }
+  };
+
+  useEffect(() => {
+    checkLocationPermission(); // Check permission when the component mounts
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -502,7 +533,7 @@ const NewFarm = () => {
               <View
                 style={{
                   alignSelf: "center",
-                  alignItems:'center'
+                  alignItems: "center",
                 }}
               >
                 <TouchableOpacity
@@ -516,11 +547,61 @@ const NewFarm = () => {
                     style={styles.icon}
                   />
                 </TouchableOpacity>
-                <Text style={styles.modalText}>راہنمائی کے لیے ویڈیو دیکھیں</Text>
+                <Text style={styles.modalText}>
+                  راہنمائی کے لیے ویڈیو دیکھیں
+                </Text>
               </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
+      </Modal>
+      {/* location modal */}
+      <Modal animationType="fade" visible={locationModal} transparent={true}>
+        <View
+          style={{
+            justifyContent: "center",
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 10,
+              // height: hp(20),
+              alignItems: "center",
+              justifyContent: "center",
+              width: wp(80),
+            }}
+          >
+            <Image
+              source={require("../../../assets/location.jpg")}
+              style={styles.locationImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.locationHeading}>
+              GrowPak requires your current location to show the current
+              weather. Please grant location access to provide you with accurate
+              weather information.
+            </Text>
+            <View style={styles.locationButtonRow}>
+              <TouchableOpacity
+                onPress={requestLocationPermission}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Allow</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setLocationModal(false)}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Maybe Later</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </Modal>
       <StatusBar style="light" />
     </View>
@@ -641,6 +722,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginVertical: hp(1),
+  },
+  locationButtonRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  locationImage: {
+    height: hp(30),
+    width: wp(70),
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  locationHeading: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 16,
+    margin: 10,
+  },
+  locationButton: {
+    backgroundColor: COLORS.disableGrey,
+    padding: 10,
+    width: wp(30),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    margin: 10,
+  },
+  locationButtonText: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 14,
   },
 });
 export default NewFarm;

@@ -29,6 +29,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import COLORS from "../../assets/colors/colors";
 import { ActiveButton, DisabledButton } from "../components/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Entypo from "react-native-vector-icons/Entypo";
 import {
   signUp,
   getAllCountries,
@@ -67,6 +68,7 @@ const PersonalInfo = () => {
   const [calledOnce, setCalledOnce] = useState(false);
   const [profession, setProfession] = useState("");
   const [loader, setLoader] = useState(false);
+  const [imageModal, setImageModal] = useState(false);
 
   //country
   const [country, setCountry] = useState("");
@@ -240,6 +242,7 @@ const PersonalInfo = () => {
   const getCountryHandler = async () => {
     dispatch(getAllCountries());
   };
+
   const getProvinceByCountryHandler = async () => {
     dispatch(getProvinceByCountry(countryid));
   };
@@ -269,7 +272,23 @@ const PersonalInfo = () => {
     showMode("date");
   };
 
+  useEffect(() => {
+    checkImagePermission();
+  }, []);
+
+  const checkImagePermission = async () => {
+    let { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    console.log(status, "image permission status on personal info urdu screen");
+
+    if (status !== "granted") {
+      setImageModal(true);
+    }else{
+      pickImage()
+    }
+  };
+
   const pickImage = async () => {
+    setImageModal(false);
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -743,7 +762,7 @@ const PersonalInfo = () => {
 
             <TouchableOpacity
               style={styles.avatarContainer}
-              onPress={pickImage}
+              onPress={checkImagePermission}
             >
               {image ? (
                 <Image
@@ -924,6 +943,55 @@ const PersonalInfo = () => {
           <ActivityIndicator size={"large"} color={COLORS.green} />
         </View>
       </Modal>
+
+      {/* image permission modal */}
+      <Modal animationType="fade" visible={imageModal} transparent={true}>
+        <View
+          style={{
+            justifyContent: "center",
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 10,
+              // height: hp(20),
+              alignItems: "center",
+              justifyContent: "center",
+              width: wp(80),
+            }}
+          >
+            <Image
+              source={require("../../assets/photos.webp")}
+              style={styles.photo}
+              resizeMode="contain"
+            />
+            <Text style={styles.locationHeading}>
+              GrowPak requires your profile picture for creating your account.
+              To use the GrowPak application, please grant access to your photos
+              to upload your profile picture.
+            </Text>
+            <View style={styles.locationButtonRow}>
+              <TouchableOpacity
+                onPress={pickImage}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Allow</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setImageModal(false)}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Maybe Later</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -1024,6 +1092,44 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 14,
     fontWeight: "400",
+  },
+  locationButtonRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  locationImage: {
+    height: hp(30),
+    width: wp(70),
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  locationHeading: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 16,
+    margin: 10,
+    textAlign: "center",
+  },
+  locationButton: {
+    backgroundColor: COLORS.disableGrey,
+    padding: 10,
+    width: wp(30),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    margin: 10,
+  },
+  locationButtonText: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 14,
+  },
+  images: {
+    alignItems: "center",
+    margin: 10,
+    backgroundColor: "#fec4dc",
+  },
+  photo: {
+    height: hp(40),
+    width: wp(90),
   },
 });
 

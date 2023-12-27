@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "y"
+      "bundleIdentifier": "growtechsol.com"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -53,6 +53,11 @@
       [
         "expo-notifications"
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b94a728e-cefd-4ab7-95a6-0ee585b2fa7f"
+      }
+    }
   }
 }

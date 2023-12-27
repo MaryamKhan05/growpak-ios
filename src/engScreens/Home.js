@@ -60,6 +60,7 @@ const Home = () => {
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(null);
+  const [locationModal, setLocationModal] = useState(false);
 
   const weatherResponse = useSelector((state) => state.api.weather?.data);
   const bannerResponse = useSelector((state) => state.api.banners?.data?.data);
@@ -85,13 +86,45 @@ const Home = () => {
     }
   }, [userByIdResponse]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      getLocationHandler();
-    });
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", () => {
+  //     getLocationHandler();
+  //   });
 
-    return unsubscribe;
-  }, [navigation]);
+  //   return unsubscribe;
+  // }, [navigation]);
+
+  useEffect(() => {
+    checkLocationPermission(); // Check permission when the component mounts
+  }, []);
+  const checkLocationPermission = async () => {
+    let { status } = await Location.getForegroundPermissionsAsync();
+    console.log(status, "the status of the location permissions ");
+    if (status !== "granted") {
+      setLocationModal(true); // Enable the modal if permission is not granted
+      setErrorMsg("Permission to access location was denied");
+    }
+  };
+  const requestLocationPermission = async () => {
+    try {
+      setLocationModal(false);
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        // If permission is granted, proceed with getting the location
+        let location = await Location.getCurrentPositionAsync({});
+        let lat = location.coords.latitude;
+        setLocation(location);
+        let lon = location.coords.longitude;
+        setLongitude(lon);
+        setLatitude(lat);
+      } else {
+        setErrorMsg("Permission to access location was denied");
+      }
+    } catch (error) {
+      console.error("Error getting location:", error);
+      setErrorMsg("Error getting location");
+    }
+  };
 
   const getLocationHandler = async () => {
     // console.log("location handler ");
@@ -201,8 +234,6 @@ const Home = () => {
     const message = "";
     Linking.openURL(`http://api.whatsapp.com/send?phone=${phoneNumber}`);
   };
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -720,6 +751,55 @@ const Home = () => {
         </View>
       </Modal>
 
+      {/* location modal */}
+      <Modal animationType="fade" visible={locationModal} transparent={true}>
+        <View
+          style={{
+            justifyContent: "center",
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 10,
+              // height: hp(20),
+              alignItems: "center",
+              justifyContent: "center",
+              width: wp(80),
+            }}
+          >
+            <Image
+              source={require("../../assets/location.jpg")}
+              style={styles.locationImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.locationHeading}>
+              GrowPak requires your current location to show the current
+              weather. Please grant location access to provide you with accurate
+              weather information.
+            </Text>
+            <View style={styles.locationButtonRow}>
+              <TouchableOpacity
+                onPress={requestLocationPermission}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Allow</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setLocationModal(false)}
+                style={styles.locationButton}
+              >
+                <Text style={styles.locationButtonText}>Maybe Later</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <StatusBar style="dark" />
     </SafeAreaView>
   );
@@ -822,6 +902,35 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     margin: 10,
+  },
+  locationButtonRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  locationImage: {
+    height: hp(30),
+    width: wp(70),
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  locationHeading: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 16,
+    margin: 10,
+    textAlign: "center",
+  },
+  locationButton: {
+    backgroundColor: COLORS.disableGrey,
+    padding: 10,
+    width: wp(30),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    margin: 10,
+  },
+  locationButtonText: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 14,
   },
 });
 
