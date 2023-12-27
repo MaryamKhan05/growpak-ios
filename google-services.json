@@ -1,0 +1,125 @@
+{
+  "project_info": {
+    "project_number": "564866541715",
+    "firebase_url": "https://growtech-pvt-ltd-default-rtdb.firebaseio.com",
+    "project_id": "growtech-pvt-ltd",
+    "storage_bucket": "growtech-pvt-ltd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564866541715:android:68eea804de362005434566",
+        "android_client_info": {
+          "package_name": "dost.growtechsol.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564866541715-977tlirsbiv1b56qc4bklgraqevghu6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dost.growtechsol.com",
+            "certificate_hash": "6eccaa61d388697531ec8e03d54782439e509ccc"
+          }
+        },
+        {
+          "client_id": "564866541715-lm9qjufh4gqv3f1bkn9c4fj3442nejf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dost.growtechsol.com",
+            "certificate_hash": "26b563c146f09cb113509d16eae94d84618eed0d"
+          }
+        },
+        {
+          "client_id": "564866541715-n7crjrqsm879auk8nmgnkd6jsofd0ihm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dost.growtechsol.com",
+            "certificate_hash": "c7dbc698c33224f302564ce7ab1f3fc8f94d808c"
+          }
+        },
+        {
+          "client_id": "564866541715-mmsk2dq1htmrh0hhl6icunc2i48a4041.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2NagPuwR2pXnBaLLiLxkEJaFSxG0O_GU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564866541715-mmsk2dq1htmrh0hhl6icunc2i48a4041.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564866541715:android:19867e6fe2e1ed77434566",
+        "android_client_info": {
+          "package_name": "growtechsol.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564866541715-21v6tsr8uonukacibjmou3ruddrrtiqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "growtechsol.com",
+            "certificate_hash": "ce447e550d773bc8b237edefa026d9aa6fa4ef76"
+          }
+        },
+        {
+          "client_id": "564866541715-fb74prh6caarff8iscaovq52slhfllmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "growtechsol.com",
+            "certificate_hash": "a0adccaacd4437e023273be140a194532787d091"
+          }
+        },
+        {
+          "client_id": "564866541715-h46hn5te69g6kv4kah0ujkdj8ut937rs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "growtechsol.com",
+            "certificate_hash": "6eccaa61d388697531ec8e03d54782439e509ccc"
+          }
+        },
+        {
+          "client_id": "564866541715-iqv0031h3m3167f0g1cefcq6cv5b45uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "growtechsol.com",
+            "certificate_hash": "26b563c146f09cb113509d16eae94d84618eed0d"
+          }
+        },
+        {
+          "client_id": "564866541715-mmsk2dq1htmrh0hhl6icunc2i48a4041.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2NagPuwR2pXnBaLLiLxkEJaFSxG0O_GU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564866541715-mmsk2dq1htmrh0hhl6icunc2i48a4041.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

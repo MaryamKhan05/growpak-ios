@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "GrowPak",
+    "slug": "GrowPak",
+    "version": "1.5.4",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash5.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#019556"
+    },
+    "backgroundColor": "#019556",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
+    },
+    "android": {
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDj2NyGKqea5gAgspcjnG8PfGVZ3tlcwKA"
+        }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ],
+      "package": "growtechsol.com",
+      "versionCode": 54
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(GrowPak) to use your location."
+        }
+      ],
+      [
+        "expo-notifications"
+      ]
+    ]
+  }
+}
