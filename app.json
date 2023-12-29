@@ -11,12 +11,13 @@
       "backgroundColor": "#019556"
     },
     "backgroundColor": "#019556",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "growtechsol.com"
+      "bundleIdentifier": "growtechsol.com",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDj2NyGKqea5gAgspcjnG8PfGVZ3tlcwKA"
+      }
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -50,9 +51,7 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(GrowPak) to use your location."
         }
       ],
-      [
-        "expo-notifications"
-      ]
+      ["expo-notifications"]
     ],
     "extra": {
       "eas": {

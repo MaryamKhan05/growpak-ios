@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Modal,
   TouchableWithoutFeedback,
-  Image
+  Image,
 } from "react-native";
 import MapView, {
   Marker,
@@ -54,7 +54,7 @@ const NewFarm = () => {
   const map = useRef(null);
   const [polygonPoints, setPolygonPoints] = useState([]);
   const [newFarm, setNewFarm] = useState(true);
-  const [status, requestPermission] = MediaLibrary.usePermissions();
+  // const [status, requestPermission] = MediaLibrary.usePermissions();
   const [userLocation, setUserLocation] = useState(null);
   const [location, setLocation] = useState(null);
   const [latitude, setLatitude] = useState();
@@ -104,26 +104,6 @@ const NewFarm = () => {
   const savePolygonArray = async () => {
     await AsyncStorage.setItem("coords", JSON.stringify(polygonArray));
   };
-  useEffect(() => {
-    if (status === null) {
-      requestPermission();
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       setErrorMsg("Permission to access location was denied");
-  //       return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     setLocation(location);
-  //     setLongitude(location.coords.longitude);
-  //     setLatitude(location.coords.latitude);
-  //   })();
-  // }, []);
 
   useEffect(() => {
     if (polygonPoints.length == 1) {
@@ -246,16 +226,20 @@ const NewFarm = () => {
     );
   };
 
+  useEffect(() => {
+    checkLocationPermission(); // Check permission when the component mounts
+  }, []);
+
   const checkLocationPermission = async () => {
     let { status } = await Location.getForegroundPermissionsAsync();
-    console.log(status, "the status of the location permissions on newfarm ");
+    console.log(status, "the status of the location permissions on newfarm:::::::: ");
     if (status !== "granted") {
       setLocationModal(true); // Enable the modal if permission is not granted
     }
   };
   const requestLocationPermission = async () => {
     try {
-      setLocationModal(false); 
+      setLocationModal(false);
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
         // If permission is granted, proceed with getting the location
@@ -271,10 +255,6 @@ const NewFarm = () => {
       console.error("Error getting location:", error);
     }
   };
-
-  useEffect(() => {
-    checkLocationPermission(); // Check permission when the component mounts
-  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -588,7 +568,7 @@ const NewFarm = () => {
             </Text>
             <View style={styles.locationButtonRow}>
               <TouchableOpacity
-                onPress={requestLocationPermission}
+                // onPress={requestLocationPermission}
                 style={styles.locationButton}
               >
                 <Text style={styles.locationButtonText}>Allow</Text>

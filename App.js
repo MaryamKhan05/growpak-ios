@@ -26,14 +26,14 @@ export default function App() {
   }
 
   return (
-      <Provider store={store}>
-    <ApolloProvider client={client}>
+    <Provider store={store}>
+      <ApolloProvider client={client}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ToastProvider>
-            <LanguagePreference/>
+            <LanguagePreference />
           </ToastProvider>
         </GestureHandlerRootView>
-    </ApolloProvider>
-      </Provider>
+      </ApolloProvider>
+    </Provider>
   );
 }

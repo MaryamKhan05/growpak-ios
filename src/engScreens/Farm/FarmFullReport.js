@@ -74,6 +74,7 @@ const FarmFullReport = () => {
       clearInterval(intervalId);
     } else {
       const thingToSay = response?.analysis_e;
+      // const thingToSay = "Hello Maryam, how are you doing";
       Speech.speak(thingToSay, {
         language: "en-US",
         onDone: () => setPlay(false),
@@ -89,6 +90,7 @@ const FarmFullReport = () => {
       Speech.stop();
     } else {
       const thingToSay = response?.analysis_w_e;
+      // const thingToSay = "hello there";
       Speech.speak(thingToSay, {
         language: "en-US",
         onDone: () => setWaterPlay(false),
@@ -328,7 +330,6 @@ const FarmFullReport = () => {
     }
   };
   const renderItem = ({ item }) => {
-    console.log("hehehheheellooowoowoowowowo");
     count = count + 1;
     return (
       <View style={styles.legendsCard}>
@@ -448,15 +449,6 @@ const FarmFullReport = () => {
       </View>
     );
   };
-
-  let DATA = [
-    { area: 34.9, color: "#bd0026", id: 1, value: "zone 1", z1: "null" },
-    { area: 32.5, color: "#C89B30", id: 2, value: "zone 2", z2: "null" },
-    { area: 16.7, color: "#EED354", id: 3, value: "zone 3", z3: "null" },
-    { area: 11.1, color: "#E4F555", id: 4, value: "zone 4", z4: "null" },
-    { area: 4.8, color: "#BBFF29", id: 5, value: "zone 5", z5: "null" },
-  ];
-  // let DATA= zonesArray
 
   if (loading) {
     return (

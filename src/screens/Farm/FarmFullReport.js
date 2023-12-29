@@ -106,9 +106,11 @@ const FarmFullReport = () => {
       Speech.stop();
       clearInterval(intervalId);
     } else {
-      const thingToSay = response?.analysis;
+      // const thingToSay = response?.analysis;
+      const thingToSay = "welcome to growpak";
       Speech.speak(thingToSay, {
-        language: "ur-PAK",
+        // language: "ur-PAK",
+        language: "en-US",
         onDone: () => setPlay(false),
       });
     }
@@ -121,9 +123,17 @@ const FarmFullReport = () => {
     if (waterPlay) {
       Speech.stop();
     } else {
-      const thingToSay = response?.analysis_w;
+      let voices = Speech.getAvailableVoicesAsync();
+      // const thingToSay = response?.analysis_w;
+      const thingToSay = "زمین میں موجود نائٹروجن کا تجزیہ Maryam";
+      // const thingToSay = "स्वागत";
+      // const thingToSay =
+      //   "Growpak mei khush amdeed";
+
       Speech.speak(thingToSay, {
         language: "ur-PAK",
+        // language: "en-US",
+        // language: "hi-IN",
         onDone: () => setWaterPlay(false),
       });
     }
@@ -152,7 +162,6 @@ const FarmFullReport = () => {
       let w = legends?.filter((item) => item.list_value === "ws");
       if (response?.z1 > 0) {
         zCount = zCount + 1;
-        console.log("inside ", response?.z1);
         zonesArray.push({
           ["z" + zCount]: response?.z1,
           value: `زون ${zCount}`,
@@ -163,7 +172,6 @@ const FarmFullReport = () => {
       }
       if (response?.z2 > 0) {
         zCount = zCount + 1;
-        console.log("inside ", response?.z2);
         zonesArray.push({
           ["z" + zCount]: response?.z2,
           value: `زون ${zCount}`,
@@ -173,7 +181,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z3 > 0) {
-        console.log("inside ", response?.z3);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z3,
@@ -184,7 +191,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z4 > 0) {
-        console.log("inside ", response?.z4);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z4,
@@ -195,7 +201,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z5 > 0) {
-        console.log("inside ", response?.z5);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z5,
@@ -207,7 +212,6 @@ const FarmFullReport = () => {
       }
       if (response?.z6 > 0) {
         zCount = zCount + 1;
-        console.log("inside ", response?.z6);
         zonesArray.push({
           ["z" + zCount]: response?.z6,
           value: `زون ${zCount}`,
@@ -218,7 +222,6 @@ const FarmFullReport = () => {
       }
       if (response?.z7 > 0) {
         zCount = zCount + 1;
-        console.log("inside ", response?.z7);
         zonesArray.push({
           ["z" + zCount]: response?.z7,
           value: `زون ${zCount}`,
@@ -228,7 +231,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z8 > 0) {
-        console.log("inside ", response?.z8);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z8,
@@ -239,7 +241,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z9 > 0) {
-        console.log("inside ", response?.z9);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z9,
@@ -250,7 +251,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z10 > 0) {
-        console.log("inside ", response?.z10);
         zCount = zCount + 1;
         zonesArray.push({
           ["z" + zCount]: response?.z10,
@@ -265,7 +265,6 @@ const FarmFullReport = () => {
 
       if (response?.z1w > 0) {
         wsCount = wsCount + 1;
-        console.log("inside ", response?.z1w);
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1w,
           value: `زون ${wsCount}`,
@@ -276,7 +275,6 @@ const FarmFullReport = () => {
       }
       if (response?.z2w > 0) {
         wsCount = wsCount + 1;
-        console.log("inside ", response?.z2);
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1,
           value: `زون ${wsCount}`,
@@ -286,7 +284,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z3w > 0) {
-        console.log("inside ", response?.z3);
         wsCount = wsCount + 1;
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1,
@@ -297,7 +294,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z4w > 0) {
-        console.log("inside ", response?.z4);
         wsCount = wsCount + 1;
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1,
@@ -308,7 +304,6 @@ const FarmFullReport = () => {
         });
       }
       if (response?.z5w > 0) {
-        console.log("inside ", response?.z5);
         wsCount = wsCount + 1;
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1,
@@ -320,7 +315,6 @@ const FarmFullReport = () => {
       }
       if (response?.z6w > 0) {
         wsCount = wsCount + 1;
-        console.log("inside ", response?.z6);
         waterZonesArray.push({
           ["z" + wsCount]: response?.z1,
           value: `زون ${wsCount}`,
@@ -481,7 +475,6 @@ const FarmFullReport = () => {
       </View>
     );
   };
-
 
   if (loading) {
     return (

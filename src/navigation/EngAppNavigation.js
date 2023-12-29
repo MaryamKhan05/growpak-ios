@@ -419,10 +419,10 @@ function EngMain() {
                 fontWeight: "400",
               },
               headerStyle: { backgroundColor: COLORS.green },
-              headerBackVisible: false,
               headerStyle: {
                 backgroundColor: COLORS.green,
               },
+              headerTintColor: COLORS.white,
             })}
           />
           <Stack.Screen

@@ -52,6 +52,7 @@ const Farm = () => {
 
   const farmdata = useSelector((state) => state.api.farms?.data?.data);
   // console.log("farmdata:::::;", farmdata);
+  
   const deleteFarmCreatedHandler = async () => {
     try {
       await AsyncStorage.removeItem("farmCreated");
@@ -99,7 +100,6 @@ const Farm = () => {
       const usertype = await AsyncStorage.getItem("type");
       const typ = JSON.parse(usertype);
       setType(typ);
-      setLoading(false);
     } catch (e) {
       console.log("error getting type from storage on home", e);
     }

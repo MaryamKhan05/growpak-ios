@@ -122,6 +122,7 @@ const FarmDuplication = () => {
   const calculateArea = async () => {
     const numPoints = polygonPoints.length;
     if (numPoints < 3) {
+      setArea(0);
       return 0;
     }
     let area = 0;
@@ -149,16 +150,8 @@ const FarmDuplication = () => {
     let a = areaInAcres.toFixed(2);
 
     setArea(a);
-    // if (a > 3 && polygonPoints.length > 2) {
-    //   await AsyncStorage.setItem("area", JSON.stringify(finalArea));
-    //   snapshot();
-    // } else {
-    //   setModalVisible(true);
-    // }
   };
   useEffect(() => {
-    // if (area) {
-    // console.log(area, ":::::::::::::::::::::::");
     navigation.setOptions({
       headerTitleAlign: "center",
       title: `${farmName} - ${area}`,
@@ -168,7 +161,6 @@ const FarmDuplication = () => {
         fontSize: 16,
       },
     });
-    // }
   }, [area]);
   let polygonArray = [];
 
@@ -206,8 +198,24 @@ const FarmDuplication = () => {
         format: "jpg",
         quality: 0.9,
       }).then(
-        (uri) => navigation.navigate("FarmDetails", uri),
+        (uri) => navigationHandler(uri),
         (error) => console.log("error capturing ss", error)
+      );
+    }
+  };
+
+  const navigationHandler = async (uri) => {
+    try {
+      console.log(
+        area,
+        "area before saving to storage on farm duplication urdu "
+      );
+      await AsyncStorage.setItem("area", area);
+      navigation.navigate("FarmDetails", uri);
+    } catch (e) {
+      console.log(
+        "Error saving area to storage on urdu farm duplication screen",
+        e
       );
     }
   };
@@ -270,7 +278,7 @@ const FarmDuplication = () => {
           mapType="hybrid"
           showsUserLocation={true}
           zoomTapEnabled={true}
-          showsMyLocationButton={true}
+          // showsMyLocationButton={true}
           showsCompass={true}
           onPress={handleMapPress}
           minZoomLevel={16}
@@ -352,7 +360,7 @@ const FarmDuplication = () => {
                 fontSize: 14,
                 fontFamily: "PoppinsMedium",
                 textAlign: "center",
-                color:"red"
+                color: "red",
               }}
             >
               Area Must Be Atleast 3 Acre.

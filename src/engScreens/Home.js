@@ -9,8 +9,6 @@ import {
   Image,
   ActivityIndicator,
   Modal,
-  FlatList,
-  Platform,
   Linking,
 } from "react-native";
 import {
@@ -28,7 +26,9 @@ import { StatusBar } from "expo-status-bar";
 import * as _ from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
-
+import { useNavigation } from "@react-navigation/native";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 //internal imports
 import COLORS from "../../assets/colors/colors";
 import { Elements, Card, ActiveButton } from "../engComponents/Index";
@@ -41,7 +41,7 @@ import {
   notifications,
   updateUserLang,
 } from "../redux/action";
-import { useNavigation } from "@react-navigation/native";
+
 const Home = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -58,9 +58,66 @@ const Home = () => {
   const [farms, setFarms] = useState(0);
   const [updateModal, setUpdateModal] = useState(false);
 
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(null);
   const [locationModal, setLocationModal] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const [notificationModal, setNotificationModalVisible] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    setTimeout(() => {
+      checkNotificationStatus();
+    }, 5000);
+  }, []);
+
+  const checkNotificationStatus = async () => {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+
+    if (existingStatus !== "granted") {
+      setNotificationModalVisible(true);
+    }
+  };
+
+  const requestNotificationPermission = async () => {
+    setNotificationModalVisible(false);
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  };
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log("notification token", token);
+
+    return token;
+  }
 
   const weatherResponse = useSelector((state) => state.api.weather?.data);
   const bannerResponse = useSelector((state) => state.api.banners?.data?.data);
@@ -95,7 +152,9 @@ const Home = () => {
   // }, [navigation]);
 
   useEffect(() => {
-    checkLocationPermission(); // Check permission when the component mounts
+    setTimeout(() => {
+      checkLocationPermission(); // Check permission when the component mounts
+    }, 10000);
   }, []);
   const checkLocationPermission = async () => {
     let { status } = await Location.getForegroundPermissionsAsync();
@@ -103,6 +162,14 @@ const Home = () => {
     if (status !== "granted") {
       setLocationModal(true); // Enable the modal if permission is not granted
       setErrorMsg("Permission to access location was denied");
+    } else {
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("location of the user on urdu english screen", location);
+      let lat = location.coords.latitude;
+      setLocation(location);
+      let lon = location.coords.longitude;
+      setLongitude(lon);
+      setLatitude(lat);
     }
   };
   const requestLocationPermission = async () => {
@@ -800,6 +867,63 @@ const Home = () => {
         </View>
       </Modal>
 
+      {/* notification modal  */}
+      <Modal
+        animationType="fade"
+        visible={notificationModal}
+        transparent={true}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 10,
+              // height: hp(20),
+              alignItems: "center",
+              justifyContent: "center",
+              width: wp(80),
+            }}
+          >
+            <Image
+              source={require("../../assets/notification.jpg")}
+              style={styles.notificationImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.notificationHeading}>
+              Grant GrowPak access to notifications now to ensure that you
+              receive timely updates on your packages, farms, reports, weather,
+              Mandi rates, and other important information. Don’t miss out on
+              any crucial updates - allow GrowPak to keep you informed.
+            </Text>
+            <View style={styles.notificationButtonRow}>
+              <TouchableOpacity
+                onPress={() => [
+                  setLocationModal(false),
+                  requestNotificationPermission(),
+                ]}
+                style={styles.notificationButton}
+              >
+                <Text style={styles.notificationButtonText}>Allow</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setNotificationModalVisible(false)}
+                style={styles.notificationButton}
+              >
+                <Text style={styles.notificationButtonText}>Maybe Later</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <StatusBar style="dark" />
     </SafeAreaView>
   );
@@ -929,6 +1053,35 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   locationButtonText: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 14,
+  },
+  notificationButtonRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  notificationImage: {
+    height: hp(30),
+    width: wp(70),
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  notificationHeading: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 16,
+    margin: 10,
+    textAlign: "center",
+  },
+  notificationButton: {
+    backgroundColor: COLORS.disableGrey,
+    padding: 10,
+    width: wp(30),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    margin: 10,
+  },
+  notificationButtonText: {
     fontFamily: "PoppinsRegular",
     fontSize: 14,
   },

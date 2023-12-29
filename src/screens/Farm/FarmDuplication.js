@@ -125,6 +125,7 @@ const FarmDuplication = () => {
   const calculateArea = async () => {
     const numPoints = polygonPoints.length;
     if (numPoints < 3) {
+      setArea(0);
       return 0;
     }
     let area = 0;
@@ -153,12 +154,6 @@ const FarmDuplication = () => {
 
     setArea(a);
     console.log(a, "area on farm duplicaiton screen in urdu!");
-    // if (a > 3 && polygonPoints.length > 2) {
-    //   await AsyncStorage.setItem("area", JSON.stringify(finalArea));
-    //   snapshot();
-    // } else {
-    //   setModalVisible(true);
-    // }
   };
   useEffect(() => {
     navigation.setOptions({
@@ -186,7 +181,6 @@ const FarmDuplication = () => {
         ]);
       }
 
-      // console.log(polygonArray, "//////////polygon array");
       try {
         await AsyncStorage.setItem("coords", JSON.stringify(polygonArray));
         console.log(
@@ -208,8 +202,24 @@ const FarmDuplication = () => {
         format: "jpg",
         quality: 0.9,
       }).then(
-        (uri) => navigation.navigate("FarmDetails", uri),
+        (uri) => navigationHandler(uri),
         (error) => console.log("error capturing ss", error)
+      );
+    }
+  };
+
+  const navigationHandler = async (uri) => {
+    try {
+      console.log(
+        area,
+        "area before saving to storage on farm duplication urdu "
+      );
+      await AsyncStorage.setItem("area", area);
+      navigation.navigate("FarmDetails", uri);
+    } catch (e) {
+      console.log(
+        "Error saving area to storage on urdu farm duplication screen",
+        e
       );
     }
   };

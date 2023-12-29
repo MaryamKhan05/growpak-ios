@@ -52,7 +52,7 @@ const NewFarm = () => {
   const map = useRef(null);
   const [polygonPoints, setPolygonPoints] = useState([]);
   const [newFarm, setNewFarm] = useState(true);
-  const [status, requestPermission] = MediaLibrary.usePermissions();
+  // const [status, requestPermission] = MediaLibrary.usePermissions();
   const [location, setLocation] = useState(null);
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
@@ -94,11 +94,11 @@ const NewFarm = () => {
   const savePolygonArray = async () => {
     await AsyncStorage.setItem("coords", JSON.stringify(polygonArray));
   };
-  useEffect(() => {
-    if (status === null) {
-      requestPermission();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (status === null) {
+  //     requestPermission();
+  //   }
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -369,7 +369,7 @@ const NewFarm = () => {
           mapType="hybrid"
           showsUserLocation={true}
           zoomTapEnabled={true}
-          showsMyLocationButton={true}
+          // showsMyLocationButton={true}
           showsCompass={true}
           onPress={handleMapPress}
           minZoomLevel={16}
