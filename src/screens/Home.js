@@ -36,6 +36,8 @@ import {
   getWeather,
   homeCount,
   notifications,
+  tokenWithId,
+  tokenWithoutId,
 } from "../redux/action";
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
@@ -71,6 +73,30 @@ const Home = () => {
   const responseListener = useRef();
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      const subscription =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          const route = response?.notification?.request?.content?.data?.type;
+
+          if (route == "Notification") {
+            dispatch(notifications());
+            setTimeout(() => {
+              navigation.navigate("Notification");
+            }, 1000);
+          }
+          if (route == "Mandi") {
+            setTimeout(() => {
+              navigation.navigate("ElementsView");
+            }, 1000);
+          }
+        });
+      return () => subscription.remove();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     setTimeout(() => {
       checkNotificationStatus();
     }, 5000);
@@ -85,28 +111,11 @@ const Home = () => {
     }
   };
 
-  const lastNotificationResponse = Notifications.useLastNotificationResponse();
-
-  console.log(
-    "lastNotificationResponse",
-    lastNotificationResponse?.notification?.request?.content?.data?.type
-  );
-  useEffect(() => {
-    if (lastNotificationResponse) {
-      console.warn("hello notification");
-      setLoading(true);
-      let route =
-        lastNotificationResponse?.notification?.request?.content?.data?.type;
-      dispatch(notifications());
-      navigation.navigate(route);
-      setLoading(false);
-    }
-  }, []);
-
   const requestNotificationPermission = async () => {
     setNotificationModalVisible(false);
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
+    registerForPushNotificationsAsync().then(
+      (token) => setExpoPushToken(token),
+      dispatch(tokenWithId({ token, platform: "ios" }))
     );
 
     notificationListener.current =

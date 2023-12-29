@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   View,
   Platform,
@@ -12,8 +12,9 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//internal imports
+import * as Notifications from "expo-notifications";
 
+//internal imports
 import {
   Onboarding,
   Login,
@@ -66,19 +67,23 @@ const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 
 function Main() {
+  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
   const [tokenInStorage, setTokenInStorage] = useState(null);
   const [initialRoute, setInitialRoute] = useState("HomeTab");
-  const [notification, setNotification] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const [notificationModal, setNotificationModalVisible] = useState(false);
+  const [route, setRoute] = useState(null);
+  const notificationListener = useRef();
+  const responseListener = useRef();
 
   let logoutresponse = useSelector((state) => state.api.logout?.message);
   // console.log(logoutresponse, "logout res");
 
   let token = useSelector((state) => state.api.token);
 
- 
   // token checker
   useEffect(() => {
     if (token) {
@@ -102,10 +107,51 @@ function Main() {
     checkToken();
   }, []);
 
+  // notification code
+
+  useEffect(() => {
+    const handleNotificationResponse = (response) => {
+      console.log(
+        "Notification Response:",
+        response?.notification?.request?.content?.data?.type
+      );
+      setRoute(response?.notification?.request?.content?.data?.type);
+    };
+
+    const responseListener =
+      Notifications.addNotificationResponseReceivedListener(
+        handleNotificationResponse
+      );
+
+    return () => {
+      responseListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (route) {
+      setLoading(true);
+      if (route == "Notification") {
+        dispatch(notifications());
+        setInitialRoute("Notification");
+      }
+      if (route == "Mandi") {
+        setInitialRoute("ElementsView");
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 8000);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
+  }, [route]);
+
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator style="large" color={"yellow"} />
+        <ActivityIndicator style="large" color={COLORS.green} />
       </View>
     );
   }
@@ -165,11 +211,31 @@ function Main() {
           />
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={initialRoute}>
           <HomeStack.Screen
             name="HomeTab"
             component={HomeTab}
             options={{ headerShown: false }}
+          />
+          <HomeStack.Screen
+            name="Notification"
+            component={Notification}
+            options={({ route }) => ({
+              title: "اطلاع",
+              headerTitleAlign: "center",
+              headerTitleStyle: {
+                color: COLORS.white,
+                fontFamily: "CustomFont",
+                fontSize: 28,
+                fontWeight: "400",
+              },
+              headerStyle: { backgroundColor: COLORS.green },
+              headerBackVisible: false,
+              headerStyle: {
+                backgroundColor: COLORS.green,
+              },
+              headerRight: () => <BackButton />,
+            })}
           />
           <HomeStack.Screen
             name="SubBenefits"
@@ -377,26 +443,7 @@ function Main() {
               headerRight: () => <BackButton />,
             })}
           />
-          <HomeStack.Screen
-            name="Notification"
-            component={Notification}
-            options={({ route }) => ({
-              title: "اطلاع",
-              headerTitleAlign: "center",
-              headerTitleStyle: {
-                color: COLORS.white,
-                fontFamily: "CustomFont",
-                fontSize: 28,
-                fontWeight: "400",
-              },
-              headerStyle: { backgroundColor: COLORS.green },
-              headerBackVisible: false,
-              headerStyle: {
-                backgroundColor: COLORS.green,
-              },
-              headerRight: () => <BackButton />,
-            })}
-          />
+
           <HomeStack.Screen
             name="JazzcashSuccess"
             component={JazzcashSuccess}

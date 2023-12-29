@@ -10,6 +10,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#019556"
     },
+    "icon": "./assets/newlogo.png",
     "backgroundColor": "#019556",
     "assetBundlePatterns": ["**/*"],
     "ios": {

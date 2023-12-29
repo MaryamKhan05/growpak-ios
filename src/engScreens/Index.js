@@ -4,7 +4,7 @@ export { default as LoginPin } from "./Auth/LoginPin";
 export { default as Home } from "./Home";
 export { default as AddFarmer } from "./Farmer/AddFarmer";
 export { default as Menu } from "./Menu";
-export { default as Notifications } from "./Notifications/Notifications";
+export { default as Notification } from "./Notifications/Notifications";
 export { default as Prelogin } from "./PreLogin";
 export { default as Forgot } from "./Auth/Forgot";
 export { default as Signup } from "./Auth/Signup";

@@ -66,6 +66,26 @@ const Home = () => {
   const responseListener = useRef();
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      const subscription =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          const route = response?.notification?.request?.content?.data?.type;
+
+          if (route == "Notification") {
+            dispatch(notifications());
+            navigation.navigate("Notification");
+          }
+          if (route == "Mandi") {
+            navigation.navigate("ElementsView");
+          }
+        });
+      return () => subscription.remove();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     setTimeout(() => {
       checkNotificationStatus();
     }, 5000);

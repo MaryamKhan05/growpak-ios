@@ -12,6 +12,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "expo-notifications";
 
 import {
   Onboarding,
@@ -26,7 +27,7 @@ import {
   Information,
   Home,
   ElementsView,
-  Notifications,
+  Notification,
   Menu,
   Farm,
   GeneralNotification,
@@ -65,10 +66,10 @@ function EngMain() {
   const [notification, setNotification] = useState(null);
   const [initialRoute, setInitialRoute] = useState("EngHomeTab");
   const [loading, setLoading] = useState(false);
+  const [route, setRoute] = useState(null);
 
   let token = useSelector((state) => state.api.token);
 
- 
   useEffect(() => {
     if (!notification) {
       setTimeout(() => {
@@ -100,10 +101,51 @@ function EngMain() {
     checkToken();
   }, []);
 
+  //notification code
+
+  useEffect(() => {
+    const handleNotificationResponse = (response) => {
+      console.log(
+        "Notification Response:",
+        response?.notification?.request?.content?.data?.type
+      );
+      setRoute(response?.notification?.request?.content?.data?.type);
+    };
+
+    const responseListener =
+      Notifications.addNotificationResponseReceivedListener(
+        handleNotificationResponse
+      );
+
+    return () => {
+      responseListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (route) {
+      setLoading(true);
+      if (route == "Notification") {
+        dispatch(notifications());
+        setInitialRoute("Notification");
+      }
+      if (route == "Mandi") {
+        setInitialRoute("ElementsView");
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 8000);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
+  }, [route]);
+
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator style="large" color={"yellow"} />
+        <ActivityIndicator style="large" color={COLORS.green} />
       </View>
     );
   }
@@ -185,7 +227,7 @@ function EngMain() {
           />
           <Stack.Screen
             name="Notification"
-            component={Notifications}
+            component={Notification}
             options={{
               headerTintColor: COLORS.white,
               headerStyle: { backgroundColor: COLORS.green },
