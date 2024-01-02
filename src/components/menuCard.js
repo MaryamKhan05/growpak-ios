@@ -7,6 +7,10 @@ import {
   Linking,
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 import COLORS from "../../assets/colors/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -67,6 +71,7 @@ const styles = StyleSheet.create({
     fontFamily: "CustomFont",
     color: COLORS.disableBlack,
     width: "74%",
+    padding: 10,
   },
   image: {
     height: 20,

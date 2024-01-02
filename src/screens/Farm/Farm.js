@@ -374,15 +374,7 @@ const Farm = () => {
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text
-                style={[
-                  Platform.OS == "android"
-                    ? [styles.modalheading, { letterSpacing: -5 }]
-                    : styles.modalheading,
-                ]}
-              >
-                کھیت سبسکرائب نہیں ہے
-              </Text>
+              <Text style={styles.modalheading}>کھیت سبسکرائب نہیں ہے</Text>
               <View
                 style={{
                   padding: hp(0.1),
@@ -392,42 +384,18 @@ const Farm = () => {
                 }}
               />
               <Text
-                style={
-                  Platform.OS == "android"
-                    ? {
-                        fontSize: 24,
-                        fontWeight: "400",
-                        fontFamily: "CustomFont",
-                        letterSpacing: -4,
-                      }
-                    : {
-                        fontSize: 24,
-                        fontWeight: "400",
-                        fontFamily: "CustomFont",
-                      }
-                }
+                style={{
+                  fontSize: 24,
+                  fontWeight: "400",
+                  fontFamily: "CustomFont",
+                  textAlign: "center",
+                  width: wp(70),
+                  marginVertical: 10,
+                }}
+                numberOfLines={2}
               >
-                سبسکرائبڈکھیت کی پیداوار عام کھیت کے بدلے
-              </Text>
-              <Text
-                style={
-                  Platform.OS == "android"
-                    ? {
-                        fontSize: 24,
-                        fontWeight: "400",
-                        fontFamily: "CustomFont",
-                        margin: 10,
-                        letterSpacing: -2,
-                      }
-                    : {
-                        fontSize: 24,
-                        fontWeight: "400",
-                        fontFamily: "CustomFont",
-                        margin: 10,
-                      }
-                }
-              >
-                15% زیادہ ہو سکتی ہے
+                سبسکرائب کیے گئے کھیت کی پیداوار عام کھیت کے بدلے %15 زیادہ ہو
+                سکتی ہے
               </Text>
               <TouchableOpacity
                 onPress={() => [
@@ -435,7 +403,7 @@ const Farm = () => {
                   setModalVisible(false),
                 ]}
               >
-                <ActiveButton text="پیکجزدیکھیں " />
+                <ActiveButton text="پیکیجز دیکھیں " />
               </TouchableOpacity>
 
               <View
@@ -446,7 +414,7 @@ const Farm = () => {
                   borderColor: COLORS.disableGrey,
                   borderRadius: 12,
                   width: hp(40),
-                  height: hp(20),
+                  height: hp(15),
                   alignItems: "center",
                   justifyContent: "space-evenly",
                 }}
@@ -454,14 +422,8 @@ const Farm = () => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate("SubBenefits")}
                 >
-                  <Text
-                    style={
-                      Platform.OS == "android"
-                        ? [styles.modalText, { letterSpacing: -3 }]
-                        : styles.modalText
-                    }
-                  >
-                    سبسکرائبڈ کھیت کے فیچرز جانیئے
+                  <Text style={styles.modalText}>
+                    سبسکرائب کیے گئے کھیت کے فیچرز جانیئے
                   </Text>
                 </TouchableOpacity>
                 <View

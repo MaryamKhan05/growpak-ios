@@ -58,7 +58,7 @@ const PersonalInfo = () => {
   const [agent, setAgent] = useState(false);
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(2024, 0, 1));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [pin, setPin] = useState("");
@@ -272,9 +272,9 @@ const PersonalInfo = () => {
     showMode("date");
   };
 
-  useEffect(() => {
-    checkImagePermission();
-  }, []);
+  // useEffect(() => {
+  //   checkImagePermission();
+  // }, []);
 
   const checkImagePermission = async () => {
     let { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -429,7 +429,7 @@ const PersonalInfo = () => {
     Platform.OS == "android" ? styles.androidDotStyle : styles.iosDotStyle;
   const headingText =
     Platform.OS == "android" ? STYLES.swiperTitle : styles.heading;
-  const text = Platform.OS == "android" ? STYLES.text : styles.text;
+  const text = styles.text;
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Swiper
@@ -972,8 +972,7 @@ const PersonalInfo = () => {
             />
             <Text style={styles.locationHeading}>
               GrowPak requires your profile picture for creating your account.
-              To use the GrowPak application, please grant access to your photos
-              to upload your profile picture.
+              To use the GrowPak application, please grant access to your photos.
             </Text>
             <View style={styles.locationButtonRow}>
               <TouchableOpacity
@@ -1012,7 +1011,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "400",
     fontFamily: "CustomFont",
-    marginVertical: hp("1"),
+    paddingVertical:5
   },
   radiotext: {
     fontSize: 20,

@@ -85,8 +85,6 @@ const Menu = () => {
 
           {/* name card */}
           <View style={[styles.nameCard]}>
-          
-
             <View style={styles.nameContainer}>
               <Text style={{ fontWeight: "400", fontSize: 16 }}>{name}</Text>
               <Text style={styles.agent}> {type} </Text>

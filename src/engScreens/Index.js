@@ -23,7 +23,8 @@ export { default as JazzCash } from "./Jazzcash/Jazzcash";
 export { default as NewFarm } from "./Farm/NewFarm";
 export { default as FarmDetails } from "./Farm/FarmDetails";
 export { default as SubscribedFarm } from "./Farm/SubscribedFarm";
-export { default as FarmFullReport } from "./Farm/FarmFullReport";
+export { default as FarmFullEngReport } from "./Farm/FarmFullReport";
 export { default as AllFarmers } from "./Farmer/AllFarmers";
 export { default as JazzcashSuccess } from "./Jazzcash/JazzcashSuccess";
 export { default as FarmDuplication } from "./Farm/FarmDuplication";
+export {default as FarmFullUrduReport} from '../screens/Farm/FarmFullReport'

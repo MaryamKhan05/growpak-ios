@@ -59,7 +59,7 @@ const Farmer = () => {
   const [email, setEmail] = useState(null);
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(2000, 0, 1));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);

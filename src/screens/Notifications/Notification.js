@@ -81,6 +81,7 @@ const Notification = () => {
   };
 
   const renderItem = ({ item }) => {
+    console.log("notification body ", item.body);
     return (
       <TouchableOpacity
         style={styles.itemContainer}
@@ -103,10 +104,12 @@ const Notification = () => {
             <Image
               source={{ uri: item.image }}
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
             />
           </View>
-          <Text style={styles.desc}>{item.body}</Text>
+          <Text style={styles.desc} numberOfLines={2}>
+            {item.body}
+          </Text>
         </View>
         <View
           style={{
@@ -176,27 +179,28 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 50,
-    width: 50,
+    width: 55,
     borderRadius: 10,
     overflow: "hidden",
     right: hp(2),
   },
   desc: {
     fontWeight: "400",
-    fontSize: 20,
+    fontSize: 16,
     width: wp(85),
     fontFamily: "CustomFont",
     marginHorizontal: 10,
-    marginTop: hp(1),
     textAlign: "right",
+    paddingVertical: 10,
   },
   title: {
-    fontWeight: '400',
-    fontSize: 24,
+    fontWeight: "400",
+    fontSize: 21,
     fontFamily: "CustomFont",
     width: wp(70),
     textAlign: "right",
     marginHorizontal: hp(3),
+    paddingVertical: 10,
   },
   time: {
     color: COLORS.textgrey,

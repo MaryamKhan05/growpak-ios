@@ -159,6 +159,11 @@ const Home = () => {
   }, [notification]);
 
   const weatherResponse = useSelector((state) => state.api.weather?.data);
+  console.log(
+    "weatherResponse",
+    weatherResponse?.weather[0]?.main,
+    "weatherResponse"
+  );
   const bannerResponse = useSelector((state) => state.api.banners?.data?.data);
   let userByIdResponse = useSelector(
     (state) => state.api.userById?.data?.data[0]
@@ -443,22 +448,51 @@ const Home = () => {
                   </View>
 
                   {weatherResponse ? (
-                    <View>
-                      <Text
-                        style={{
-                          textAlign: "right",
-                          fontSize: 32,
-                          color: COLORS.white,
-                          fontWeight: "600",
-                          fontFamily: "CustomFont",
-                        }}
-                      >
-                        {parseInt(weatherResponse?.main?.temp)}°
-                      </Text>
-                      <Text style={[styles.text, { marginBottom: 10 }]}>
-                        {weatherResponse?.weather[0]?.description}
-                      </Text>
-                    </View>
+                    <Text
+                      style={{
+                        textAlign: "right",
+                        fontSize: 32,
+                        color: COLORS.white,
+                        fontWeight: "600",
+                        // marginVertical: 3,
+                        fontFamily: "CustomFont",
+                      }}
+                    >
+                      {parseInt(weatherResponse?.main?.temp)}°
+                    </Text>
+                  ) : null}
+
+                  {weatherResponse?.weather[0]?.main === "Snow" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>برف</Text>
+                  ) : weatherResponse?.weather[0]?.main === "Clear" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>صاف</Text>
+                  ) : weatherResponse?.weather[0]?.main === "Mist" ||
+                    weatherResponse?.weather[0]?.main === "Fog" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      دهند
+                    </Text>
+                  ) : weatherResponse?.weather[0]?.main === "Smoke" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      دھواں
+                    </Text>
+                  ) : weatherResponse?.weather[0]?.main === "Haze" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      غبار
+                    </Text>
+                  ) : weatherResponse?.weather[0]?.main === "Dust" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      دھول
+                    </Text>
+                  ) : weatherResponse?.weather[0]?.main === "Sand" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>ریت</Text>
+                  ) : weatherResponse?.weather[0]?.main === "Ash" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      راکھ
+                    </Text>
+                  ) : weatherResponse?.weather[0]?.main === "Tornado" ? (
+                    <Text style={[styles.text, { marginBottom: 10 }]}>
+                      طوفان
+                    </Text>
                   ) : null}
                 </View>
               </ImageBackground>
@@ -1010,6 +1044,7 @@ const styles = StyleSheet.create({
     fontFamily: "CustomFont",
     color: COLORS.white,
     textAlign: "right",
+    marginVertical: hp(1),
   },
   bannerButton: {
     backgroundColor: COLORS.white,

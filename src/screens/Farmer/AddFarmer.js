@@ -64,7 +64,7 @@ const Farmer = () => {
   const [agent, setAgent] = useState(false);
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(2000, 0, 1));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [pin, setPin] = useState("");
@@ -402,7 +402,7 @@ const Farmer = () => {
     console.log(provinceValue, "provinceValue");
     console.log(cityValue, "city");
   }, [valueCountry, districtValue, provinceValue, cityValue]);
-  const text = Platform.OS == "android" ? STYLES.text : styles.text;
+  const text = styles.text;
 
   const errorHandler = () => {
     console.log(
@@ -613,16 +613,14 @@ const Farmer = () => {
             </View>
           </View>
           {genderError && <Text style={styles.error}> صنف منتخب کریں </Text>}
+
           <Text style={text}>پیدائش </Text>
 
           <TouchableOpacity
-            style={[
-              styles.inputContainer,
-              { marginBottom: hp("1"), alignItems: "flex-end" },
-            ]}
+            style={[styles.inputContainer, {alignItems:"flex-end"}]}
             onPress={showDatepicker}
           >
-            <Text style={{ textAlign: "right", width: "100%" }}>{dob}</Text>
+            <Text style={{ textAlign: "right" }}>{dob}</Text>
           </TouchableOpacity>
           <View
             style={{
@@ -834,6 +832,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "CustomFont",
     marginVertical: hp("1"),
+    padding: 5,
   },
   radiotext: {
     fontSize: 20,
@@ -861,11 +860,10 @@ const styles = StyleSheet.create({
     borderColor: COLORS.grey,
     width: wp("90"),
     borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignSelf: "center",
-    textAlign: "right",
-    height:hp(6.2)
+    height: hp(6.2),
+    justifyContent:"center",
+    padding:15
   },
   locationinput: {
     textAlign: "right",

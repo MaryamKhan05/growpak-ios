@@ -25,9 +25,9 @@ import { Separator } from "./index";
 const Forecast = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(); 
+  const [selectedItem, setSelectedItem] = useState(); //state for day card
   const [forecastData, setForecastData] = useState();
-  const [hourSelectedItem, setHourSelectedItem] = useState(); 
+  const [hourSelectedItem, setHourSelectedItem] = useState(); //state for hour card
   const [modalDay, setModalDay] = useState();
   const [modalTemp, setModalTemp] = useState();
   const [modalMaxTemp, setModalMaxTemp] = useState();
@@ -172,7 +172,34 @@ const Forecast = (props) => {
     setModalVisible(true);
     setHourSelectedItem(item);
     setModalIcon(item?.weather[0]?.main);
-    setModalIconDesc(item?.weather[0]?.description);
+
+    item?.weather[0].main === "Clouds"
+      ? setModalIconDesc("ابرآلود")
+      : item?.weather[0].main === "Rain"
+      ? setModalIconDesc(" بارش")
+      : item?.weather[0].main === "Thunderstorm"
+      ? setModalIconDesc("گرج چمک")
+      : item?.weather[0].main === "Snow"
+      ? setModalIconDesc("برف")
+      : item?.weather[0].main === "Clear"
+      ? setModalIconDesc("صاف")
+      : item?.weather[0].main === "Mist" || item?.weather[0].main === "Fog"
+      ? setModalIconDesc("دهند")
+      : item?.weather[0].main === "Smoke"
+      ? setModalIconDesc("دھواں ")
+      : item?.weather[0].main === "Haze"
+      ? setModalIconDesc("غبار")
+      : item?.weather[0].main === "Dust"
+      ? setModalIconDesc("دھول")
+      : item?.weather[0].main === "Sand"
+      ? setModalIconDesc("ریت")
+      : item?.weather[0].main === "Ash"
+      ? setModalIconDesc("راکھ")
+      : item?.weather[0].main === "Tornado"
+      ? setModalIconDesc("طوفان")
+      : setModalIconDesc(null);
+
+    // setModalIconDesc(item?.weather[0]?.description);
 
     setModalHumidity(item?.main?.humidity);
     let date = item.dt_txt;
@@ -241,37 +268,37 @@ const Forecast = (props) => {
           {firstTwoDigits}
         </Text>
         <View style={{ margin: 10 }}>
-          {item.weather[0].main === "Clear" && (
+          {item.weather[0]?.main === "Clear" && (
             <Fontisto name="day-sunny" size={size} color={color} />
           )}
-          {item.weather[0].main === "Clouds" && (
+          {item.weather[0]?.main === "Clouds" && (
             <Fontisto name="day-cloudy" size={size} color={color} />
           )}
-          {item.weather[0].main === "Snow" && (
+          {item.weather[0]?.main === "Snow" && (
             <Fontisto name="day-cloudy" size={size} color={color} />
           )}
-          {item.weather[0].main === "Rain" && (
+          {item.weather[0]?.main === "Rain" && (
             <Fontisto name="day-rain" size={size} color={color} />
           )}
-          {item.weather[0].main === "Mist" ||
-            item.weather[0].main === "Smoke" ||
-            item.weather[0].main === "Haze" ||
-            item.weather[0].main === "Dust" ||
-            item.weather[0].main === "Fog" ||
-            item.weather[0].main === "Sand" ||
-            item.weather[0].main === "Dust" ||
-            item.weather[0].main === "Ash" ||
-            item.weather[0].main === "Squall" ||
-            (item.weather[0].main === "Tornado" && (
+          {item.weather[0]?.main === "Mist" ||
+            item.weather[0]?.main === "Smoke" ||
+            item.weather[0]?.main === "Haze" ||
+            item.weather[0]?.main === "Dust" ||
+            item.weather[0]?.main === "Fog" ||
+            item.weather[0]?.main === "Sand" ||
+            item.weather[0]?.main === "Dust" ||
+            item.weather[0]?.main === "Ash" ||
+            item.weather[0]?.main === "Squall" ||
+            (item.weather[0]?.main === "Tornado" && (
               <Fontisto name="fog" size={size} color={color} />
             ))}
-          {item.weather[0].main === "Drizzle" && (
+          {item.weather[0]?.main === "Drizzle" && (
             <Fontisto name="rains" size={size} color={color} />
           )}
-          {item.weather[0].main === "Thunderstorm" && (
+          {item.weather[0]?.main === "Thunderstorm" && (
             <Ionicons name="thunderstorm-outline" size={size} color={color} />
           )}
-          {item.weather[0].main === "Snow" && (
+          {item.weather[0]?.main === "Snow" && (
             <FontAwesome name="snowflake-o" size={size} color={color} />
           )}
         </View>
@@ -314,6 +341,7 @@ const Forecast = (props) => {
           >
             <View
               style={{
+                // alignItems: "center",
                 backgroundColor: "white",
                 height: hp(70),
                 borderTopRightRadius: 25,
@@ -337,10 +365,11 @@ const Forecast = (props) => {
               <View style={{ alignItems: "center", margin: hp(5) }}>
                 <Text
                   style={{
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: "600",
                     textAlign: "center",
                     marginBottom: hp(2),
+                    fontFamily: "CustomFont",
                   }}
                 >
                   {modalDay}
@@ -349,7 +378,7 @@ const Forecast = (props) => {
                   <Text
                     style={{
                       textAlign: "center",
-                      fontSize: 32,
+                      fontSize: 24,
                       fontWeight: "700",
                     }}
                   >
@@ -400,7 +429,13 @@ const Forecast = (props) => {
                     )}
                   </View>
                 </View>
-                <Text style={{ fontSize: 18, fontWeight: "400" }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "400",
+                    fontFamily: "CustomFont",
+                  }}
+                >
                   {modalIconDesc}
                 </Text>
               </View>
@@ -446,6 +481,7 @@ const styles = StyleSheet.create({
   listCard: {
     backgroundColor: COLORS.white,
     borderRadius: 10,
+    // alignItems: "center",
     width: wp(92),
     alignSelf: "center",
     padding: 10,
@@ -458,6 +494,7 @@ const styles = StyleSheet.create({
   },
   mainCardText: {
     width: wp(22),
+    // backgroundColor: "pink",
     textAlign: "center",
   },
   column: {
@@ -475,26 +512,29 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "600",
-    fontFamily:"CustomFont",
-    color:COLORS.green
+    fontFamily: "CustomFont",
+    color: COLORS.green,
   },
   hourlyText: {
     fontSize: 16,
     fontWeight: "400",
-    margin: hp(2),
+    // margin: hp(2),
     width: hp(20),
-    fontFamily:"CustomFont"
+    fontFamily: "CustomFont",
+    textAlign: "right",
+    paddingVertical: 15,
   },
   detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: hp(3),
     alignItems: "center",
+    width: wp(90),
+    alignSelf: "center",
   },
-  val:{
-    fontFamily:"PoppinsRegular",
-    fontSize:14
-  }
+  val: {
+    fontFamily: "PoppinsRegular",
+    fontSize: 14,
+  },
 });
 
 export default Forecast;

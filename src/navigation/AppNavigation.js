@@ -39,7 +39,7 @@ import {
   BuyPackages,
   SubscribedFarm,
   FarmExample,
-  FarmFullReport,
+  FarmFullUrduReport,
   ElementsView,
   Notification,
   JazzcashSuccess,
@@ -405,7 +405,7 @@ function Main() {
           />
           <HomeStack.Screen
             name="FarmFullReport"
-            component={FarmFullReport}
+            component={FarmFullUrduReport}
             options={({ route }) => ({
               headerTitleAlign: "center",
               title: "فارم رپورٹ",

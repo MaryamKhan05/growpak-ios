@@ -76,8 +76,7 @@ const FarmDetails = () => {
   const [farmImage, setFarmImage] = useState();
   const [farmBase64, setFarmBase64] = useState();
   const [area, setArea] = useState();
-
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(2024, 0, 1));
   const [mode, setMode] = useState("date");
   const [status, setStatus] = useState();
 

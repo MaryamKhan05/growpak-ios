@@ -40,11 +40,12 @@ import {
   NewFarm,
   FarmDetails,
   SubscribedFarm,
-  FarmFullReport,
+  FarmFullEngReport,
   AllFarmers,
   AddFarmer,
   JazzcashSuccess,
   FarmDuplication,
+  FarmFullUrduReport,
 } from "../engScreens/Index";
 import COLORS from "../../assets/colors/colors";
 import UrduButton from "../engComponents/UrduButton";
@@ -387,7 +388,24 @@ function EngMain() {
           />
           <Stack.Screen
             name="FarmFullReport"
-            component={FarmFullReport}
+            component={FarmFullEngReport}
+            options={({ route }) => ({
+              headerTitleAlign: "center",
+              title: "Report",
+              headerTitleStyle: {
+                fontFamily: "PoppinsMedium",
+                fontSize: 16,
+              },
+              headerStyle: {
+                backgroundColor: COLORS.green,
+              },
+              headerTintColor: COLORS.white,
+              headerRight: () => <PdfButton />,
+            })}
+          />
+          <Stack.Screen
+            name="FarmFullUrduReport"
+            component={FarmFullUrduReport}
             options={({ route }) => ({
               headerTitleAlign: "center",
               title: "Report",

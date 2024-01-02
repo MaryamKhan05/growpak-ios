@@ -21,7 +21,7 @@ export { default as Packages } from "./Packages/Packages";
 export { default as BuyPackages } from "./Packages/BuyPackage";
 export { default as SubscribedFarm } from "./Farm/SubcribedFarm";
 export { default as FarmExample } from "./Farm/FarmExample";
-export { default as FarmFullReport } from "./Farm/FarmFullReport";
+export { default as FarmFullUrduReport } from "./Farm/FarmFullReport";
 export { default as JazzcashSuccess } from "./JazzCash/JazzcashSuccess";
 export { default as ElementsView } from "./elementsWebview";
 export { default as Notification } from "./Notifications/Notification";

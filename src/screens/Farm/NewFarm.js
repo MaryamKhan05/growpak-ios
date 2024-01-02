@@ -212,6 +212,8 @@ const NewFarm = () => {
         calculateArea();
         snapshot();
       }
+    } else {
+      setModalVisible(true);
     }
   };
 
@@ -232,7 +234,10 @@ const NewFarm = () => {
 
   const checkLocationPermission = async () => {
     let { status } = await Location.getForegroundPermissionsAsync();
-    console.log(status, "the status of the location permissions on newfarm:::::::: ");
+    console.log(
+      status,
+      "the status of the location permissions on newfarm:::::::: "
+    );
     if (status !== "granted") {
       setLocationModal(true); // Enable the modal if permission is not granted
     }
@@ -247,7 +252,7 @@ const NewFarm = () => {
         setLocation(location);
         setLongitude(location.coords.longitude);
         setLatitude(location.coords.latitude);
-       // Close the modal after granting permission
+        // Close the modal after granting permission
       } else {
         console.log("Permission to access location was denied");
       }
@@ -467,17 +472,17 @@ const NewFarm = () => {
           <View
             style={{
               backgroundColor: "white",
-              height: hp(20),
+              height: hp(18),
               // padding: 10,
               borderRadius: 25,
               // margin: 10,
-              width: wp(80),
+              width: wp(90),
             }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
               style={{
-                backgroundColor: COLORS.disableBlack,
+                backgroundColor: COLORS.disableGrey,
                 borderRadius: hp(10),
                 width: 30,
                 height: 30,
@@ -487,7 +492,7 @@ const NewFarm = () => {
                 margin: 10,
               }}
             >
-              <Entypo name="cross" size={20} color={"white"} />
+              <Entypo name="cross" size={20} color={"black"} />
             </TouchableOpacity>
 
             <Text
@@ -497,10 +502,10 @@ const NewFarm = () => {
                 fontFamily: "CustomFont",
                 // margin: hp(5),
                 textAlign: "center",
-                paddingBottom: 10,
+                padding: 10,
               }}
             >
-              رقبہ کم از کم 3 ایکڑ ہونا چاہیے۔
+              فارم شامل کرنے کے لیے رقبہ کم از کم 3 ایکڑ ہونا چاہیے۔
             </Text>
           </View>
         </View>

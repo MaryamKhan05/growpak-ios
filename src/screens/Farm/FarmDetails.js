@@ -77,7 +77,7 @@ const FarmDetails = () => {
   const [farmBase64, setFarmBase64] = useState();
   const [area, setArea] = useState();
 
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(2024, 0, 1));
   const [mode, setMode] = useState("date");
   const [status, setStatus] = useState();
 
@@ -106,8 +106,8 @@ const FarmDetails = () => {
     (state) => state.api.newFarm?.successMessage
   );
 
-  console.log(error, "::::::::::::::::::::::::::::error message::::::::::::::::::::::::::::");
-  console.log(successMessage, "success message");
+  // console.log(error, "::::::::::::::::::::::::::::error message::::::::::::::::::::::::::::");
+  // console.log(successMessage, "success message");
 
   useEffect(() => {
     if (successMessage) {
@@ -163,6 +163,7 @@ const FarmDetails = () => {
     dispatch(getFarmerByAgentId());
     getTypeHandler();
   }, []);
+
   useEffect(() => {
     if (route.params) {
       const uri = route.params;
@@ -202,6 +203,7 @@ const FarmDetails = () => {
       setCountries(countriesArray);
     }
   }, [countryresponse]);
+
   useEffect(() => {
     if (farmerresponse) {
       for (let i = 0; i < farmerresponse.length; i++) {
@@ -286,23 +288,18 @@ const FarmDetails = () => {
         COORDS,
         farmerId: type == "3" ? farmerId : userId,
         sowDate,
-        languageValue
+        languageValue,
       })
     );
     setStatus(200);
   };
-  const text =
-    Platform.OS === "android"
-      ? [STYLES.text, { marginRight: hp(2) }]
-      : styles.text;
-  const textInput =
-    Platform.OS == "android" ? styles.androidInput : styles.textInput;
 
+  const text = styles.text;
+  const textInput = styles.textInput;
 
   return (
     <View style={styles.container}>
       {/* header */}
-
 
       {/* body */}
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -394,6 +391,7 @@ const FarmDetails = () => {
               }}
               keyboardShouldPersistTaps="always"
               placeholder="فصل"
+              
               open={country}
               value={valueCountry}
               listMode="MODAL"
@@ -420,6 +418,7 @@ const FarmDetails = () => {
                 color: COLORS.disableBlack,
                 fontSize: 18,
                 textAlign: "right",
+                padding:5
               }}
               setOpen={setCountry}
               setValue={setValueCountry}
@@ -511,7 +510,7 @@ const FarmDetails = () => {
                 />
               )}
             </View>
-            <Text style={text}>کٹائی کی تاریخ</Text>
+            <Text style={text}>کٹائی کی تاریخ (آپشنل)</Text>
             <TouchableOpacity
               style={[
                 styles.inputContainer,
@@ -540,7 +539,7 @@ const FarmDetails = () => {
               )}
             </View>
 
-            <Text style={text}> پہلی کھادکی تاریخ</Text>
+            <Text style={text}> پہلی کھادکی تاریخ (آپشنل)</Text>
 
             <TouchableOpacity
               style={[
@@ -570,7 +569,7 @@ const FarmDetails = () => {
               )}
             </View>
 
-            <Text style={text}>پہلی کھادکا نام</Text>
+            <Text style={text}>پہلی کھادکا نام (آپشنل)</Text>
             <TextInput
               value={mendmentName1}
               onChangeText={(text) => setMendmentName1(text)}
@@ -578,7 +577,7 @@ const FarmDetails = () => {
               placeholderTextColor={"grey"}
               underlineColor="transparent"
             />
-            <Text style={text}>دوسری کھادکی تاریخ</Text>
+            <Text style={text}>دوسری کھادکی تاریخ (آپشنل) </Text>
             <TouchableOpacity
               style={[
                 styles.inputContainer,
@@ -607,7 +606,7 @@ const FarmDetails = () => {
               )}
             </View>
 
-            <Text style={text}>دوسری کھادکا نام</Text>
+            <Text style={text}> دوسری کھادکا نام (آپشنل) </Text>
             <TextInput
               value={mendmentName2}
               onChangeText={(text) => setMendmentName2(text)}
@@ -669,7 +668,7 @@ const styles = StyleSheet.create({
     fontFamily: "CustomFont",
   },
   textInput: {
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: COLORS.grey,
     borderRadius: 8,
     fontFamily: "CustomFont",
@@ -699,6 +698,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     textAlign: "right",
     marginRight: hp(1),
+    paddingTop: 5,
   },
   body: {
     width: "95%",
@@ -714,7 +714,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     marginVertical: hp(1),
-    height:hp(6)
+    height: hp(6),
   },
   container: {
     backgroundColor: COLORS.white,

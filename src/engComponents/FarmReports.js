@@ -139,7 +139,7 @@ const FarmReports = () => {
   };
   const getFullReportHandler = (id) => {
     dispatch(getReportsByReportId(id));
-    navigation.navigate("FarmFullReport");
+    navigation.navigate("FarmFullUrduReport");
   };
 
   const filterDataHandler = (pressed) => {

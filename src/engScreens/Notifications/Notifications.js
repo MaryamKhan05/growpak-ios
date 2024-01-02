@@ -84,7 +84,7 @@ const Notification = () => {
       <TouchableOpacity
         style={styles.itemContainer}
         onPress={() => notificationNavHandler(item)}
-      >
+      >  
        
           <View
             style={{
@@ -99,7 +99,7 @@ const Notification = () => {
           />
             <Text style={[styles.title]}>{item.title_e}</Text>
             </View>
-            <Text style={styles.desc}>{item.body_e}</Text>
+            <Text style={styles.desc} numberOfLines={2}>{item.body_e}</Text>
           </View>
 
      

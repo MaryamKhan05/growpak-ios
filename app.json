@@ -12,7 +12,9 @@
     },
     "icon": "./assets/newlogo.png",
     "backgroundColor": "#019556",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "growtechsol.com",
@@ -52,11 +54,13 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(GrowPak) to use your location."
         }
       ],
-      ["expo-notifications"]
+      [
+        "expo-notifications"
+      ]
     ],
     "extra": {
       "eas": {
-        "projectId": "b94a728e-cefd-4ab7-95a6-0ee585b2fa7f"
+        "projectId": "3743556b-a04d-4d7f-9f7c-1605ad8ffe35"
       }
     }
   }
