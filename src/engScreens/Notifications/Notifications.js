@@ -20,7 +20,7 @@ import COLORS from "../../../assets/colors/colors";
 import { StatusBar } from "expo-status-bar";
 
 const Notification = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [text, setText] = useState("");
@@ -40,30 +40,30 @@ const Notification = () => {
     }
   }, [response]);
 
-    const notificationNavHandler = (item) => {
-      if (item.path === "SubscribedFarm") {
-        dispatch(getFarmsById(item?.fid));
-        dispatch(getReportsByFarmId(item?.fid));
-        navigation.navigate("SubscribedFarm", {
-          area: item?.area,
-          name: item?.farm_name,
-          weather: item?.weather && item?.weather,
-          farm: item?.farm && item?.farm,
-          report: item?.report && item?.report,
-          activity: item?.activities && item?.activities,
-          isNotification: "yes",
-        });
-      }
-      if (item.path === "mandi") {
-        navigation.navigate("ElementsView", {
-          url: "https://growpak.store/mandirates/",
-          title: "Market Rates",
-        });
-      }
-      if (item.path === "general") {
-        navigation.navigate("GeneralNotification",{data:item});
-      }
-    };
+  const notificationNavHandler = (item) => {
+    if (item.path === "SubscribedFarm") {
+      dispatch(getFarmsById(item?.fid));
+      dispatch(getReportsByFarmId(item?.fid));
+      navigation.navigate("SubscribedFarm", {
+        area: item?.area,
+        name: item?.farm_name,
+        weather: item?.weather && item?.weather,
+        farm: item?.farm && item?.farm,
+        report: item?.report && item?.report,
+        activity: item?.activities && item?.activities,
+        isNotification: "yes",
+      });
+    }
+    if (item.path === "mandi") {
+      navigation.navigate("ElementsView", {
+        url: "https://growpak.store/mandirates/",
+        title: "Market Rates",
+      });
+    }
+    if (item.path === "general") {
+      navigation.navigate("GeneralNotification", { data: item });
+    }
+  };
 
   const filterNotifications = (searchText) => {
     if (!searchText) {
@@ -77,34 +77,43 @@ const Notification = () => {
     setHasSearchResults(searchResults.length > 0);
   };
 
-
-
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.itemContainer}
         onPress={() => notificationNavHandler(item)}
-      >  
-       
+      >
+        <View
+          style={{
+            margin: hp(0.5),
+          }}
+        >
           <View
             style={{
-              margin: hp(0.5),
+              alignItems: "center",
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "center",
             }}
           >
-            <View style={{ alignItems:"center",width:'100%',flexDirection:"row", justifyContent:"center"}}>
             <Image
-            source={{ uri: item.image }}
-            style={styles.image}
-            resizeMode="contain"
-          />
+              source={{ uri: item.image }}
+              style={styles.image}
+              resizeMode="cover"
+            />
             <Text style={[styles.title]}>{item.title_e}</Text>
-            </View>
-            <Text style={styles.desc} numberOfLines={2}>{item.body_e}</Text>
           </View>
+          <Text style={styles.desc} numberOfLines={2}>
+            {item.body_e}
+          </Text>
+        </View>
 
-     
         <View
-          style={{ backgroundColor: COLORS.disableGrey, padding: hp(0.1),marginVertical:hp(2) }}
+          style={{
+            backgroundColor: COLORS.disableGrey,
+            padding: hp(0.1),
+            marginVertical: hp(2),
+          }}
         />
         <StatusBar style="light" />
       </TouchableOpacity>
@@ -150,35 +159,35 @@ const Notification = () => {
           )
         }
       />
-      <StatusBar style="dark"/>
+      <StatusBar style="dark" />
     </View>
   );
 };
 const styles = StyleSheet.create({
   itemContainer: {
-    width:wp(95),
-    alignSelf:"center",
+    width: wp(95),
+    alignSelf: "center",
   },
   image: {
     height: 50,
     width: 50,
     borderRadius: 10,
     overflow: "hidden",
-    left:hp(2)
+    left: hp(2),
   },
   desc: {
     width: wp(85),
     fontSize: 12,
     fontFamily: "PoppinsRegular",
-    marginHorizontal:10,
-    marginTop:hp(1),
+    marginHorizontal: 10,
+    marginTop: hp(1),
   },
   title: {
     fontSize: 14,
-      fontFamily: "PoppinsSemi",
+    fontFamily: "PoppinsSemi",
     width: wp(70),
-    textAlign:"left",
-    marginHorizontal:hp(3)
+    textAlign: "left",
+    marginHorizontal: hp(3),
   },
   time: {
     color: COLORS.textgrey,

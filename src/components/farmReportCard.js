@@ -9,10 +9,10 @@ import COLORS from "../../assets/colors/colors";
 const FarmReportCard = (props) => {
   return (
     <View style={styles.card}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
         <Text style={styles.title}>{props.label}</Text>
         <Image
-          source={{uri:props.img}}
+          source={{ uri: props.img }}
           style={{ height: hp(5), width: wp(10) }}
           resizeMode="contain"
         />
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     color: COLORS.textgrey,
     width: hp(18),
     textAlign: "right",
+    paddingTop: 5,
   },
 });
 

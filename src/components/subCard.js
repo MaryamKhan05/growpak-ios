@@ -14,7 +14,7 @@ const SubCard = (props) => {
       {props.heading ? (
         <Text style={styles.heading}>{props.heading} </Text>
       ) : null}
-      <Text style={styles.caption}>{props.caption} </Text>
+      <Text style={styles.caption}>{props.caption}</Text>
     </View>
   );
 };
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    margin:hp(2)
+    margin: hp(2),
   },
 
   heading: {
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "CustomFont",
     textAlign: "center",
-    marginTop: hp(1),
-    width:wp(60)
+    paddingTop: hp(1),
+    width: wp(60),
   },
   image: {
     height: hp(10),

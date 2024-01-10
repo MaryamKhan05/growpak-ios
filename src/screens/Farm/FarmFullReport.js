@@ -485,19 +485,19 @@ const FarmFullReport = () => {
               />
 
               <View style={{ marginVertical: hp(3) }}>
-                <FarmReportDetails text={response?.name} heading="صارف    " />
-                <FarmReportDetails text={response?.city} heading="پتہ    " />
+                <FarmReportDetails text={response?.name} heading="صارف" />
+                <FarmReportDetails text={response?.city} heading="پتہ" />
                 <FarmReportDetails
                   text={response?.crop_name}
-                  heading="فصل کا نام  "
+                  heading="فصل کا نام"
                 />
                 <FarmReportDetails
                   text={response?.area}
-                  heading=" کھیت کا سائز   "
+                  heading=" کھیت کا سائز"
                 />
                 <FarmReportDetails
                   text={response?.growth_stage}
-                  heading=" فصل کی نشوونما کا مرحلہ "
+                  heading="فصل کی نشوونما کا مرحلہ"
                 />
                 <FarmReportDetails
                   text={response?.sow_date}
@@ -505,11 +505,11 @@ const FarmFullReport = () => {
                 />
                 <FarmReportDetails
                   text={response?.analysis_type}
-                  heading=" تجزیہ کی قسم"
+                  heading="تجزیہ کی قسم"
                 />
                 <FarmReportDetails
                   text={response?.analysis_date}
-                  heading="تجزیہ کی تاریخ   "
+                  heading="تجزیہ کی تاریخ"
                 />
                 <FarmReportDetails
                   text={response?.created_at}
@@ -604,7 +604,7 @@ const FarmFullReport = () => {
                 style={styles.farmImage}
               />
               {/* play audio / tts */}
-              <View
+              {/* <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -641,7 +641,7 @@ const FarmFullReport = () => {
                 >
                   تجزیہ اور تجویز سٌننے کے لیے یہاں کلک کریں
                 </Text>
-              </View>
+              </View> */}
 
               <Text style={styles.analysis}>{response?.analysis}</Text>
 
@@ -702,7 +702,7 @@ const FarmFullReport = () => {
                 </View>
               ) : null}
               {/*water play audio / tts */}
-              {response &&
+              {/* {response &&
               response?.analysis_type === "پودوں کی صحت کا تجزیہ" ? (
                 <View
                   style={{
@@ -743,7 +743,7 @@ const FarmFullReport = () => {
                     تجزیہ اور تجویز سٌننے کے لیے یہاں کلک کریں
                   </Text>
                 </View>
-              ) : null}
+              ) : null} */}
               {response &&
               response?.analysis_type === "پودوں کی صحت کا تجزیہ" ? (
                 <Text style={styles.analysis}>{response?.analysis_w}</Text>
@@ -817,7 +817,6 @@ const FarmFullReport = () => {
                       { backgroundColor: "grey", color: "white" },
                     ]}
                   >
-                    {" "}
                     انتہائی کم غذائیت
                   </Text>
                   <View style={styles.container}>
@@ -963,8 +962,7 @@ const FarmFullReport = () => {
                   }}
                 >
                   <Text style={styles.analysisType}>
-                    {" "}
-                    ہفتہ وار موسمی صورتِحال{" "}
+                    ہفتہ وار موسمی صورتِحال
                   </Text>
                   <View
                     style={{
@@ -1030,7 +1028,7 @@ const FarmFullReport = () => {
                 اہم معلومات
               </Text>
 
-              <View
+              {/* <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -1067,7 +1065,7 @@ const FarmFullReport = () => {
                 >
                   اہم معلومات سٌننے کے لیے یہاں کلک کریں
                 </Text>
-              </View>
+              </View> */}
               <FlatList
                 data={response?.disclaimer_description}
                 keyExtractor={(item) => item.rid}
@@ -1082,6 +1080,7 @@ const FarmFullReport = () => {
                             fontSize: 24,
                             fontWeight: "400",
                             textAlign: "right",
+                            paddingTop:5
                           },
                         ]}
                       >
@@ -1142,7 +1141,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "CustomFont",
     textAlign: "right",
-    margin: 10,
+    padding: 10,
   },
   text: {
     fontSize: 20,

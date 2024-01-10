@@ -6,9 +6,8 @@ import {
 import COLORS from "../../assets/colors/colors";
 
 const Slider = (props) => {
-  const heading =
-    Platform.OS == "android" ? styles.androidHeading : styles.iosHeading;
-  const text = Platform.OS == "android" ? styles.androidText : styles.iosText;
+  const heading = styles.iosHeading;
+  const text = styles.iosText;
   return (
     <View
       style={{
@@ -24,7 +23,7 @@ const Slider = (props) => {
         source={props.src}
         resizeMode="contain"
       />
-      <Text style={heading}>{props.heading} </Text>
+      <Text style={heading}>{props.heading}</Text>
       <View
         style={{
           width: wp("90"),
@@ -37,29 +36,12 @@ const Slider = (props) => {
 };
 
 const styles = StyleSheet.create({
-  androidHeading: {
-    fontFamily: "CustomFont",
-    fontSize: 32,
-    fontWeight: "400",
-    marginTop: hp("3"),
-    margin: hp("2"),
-    letterSpacing: -3,
-  },
   iosHeading: {
     fontFamily: "CustomFont",
     fontSize: 32,
     fontWeight: "400",
-    marginTop: hp("3"),
+    paddingTop: hp("3"),
     margin: hp("2"),
-  },
-  androidText: {
-    fontFamily: "CustomFont",
-    fontSize: 24,
-    fontWeight: "400",
-    color: COLORS.textgrey,
-    textAlign: "center",
-    letterSpacing: -4,
-    marginTop: 3,
   },
   iosText: {
     fontFamily: "CustomFont",
@@ -67,7 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: COLORS.textgrey,
     textAlign: "center",
-    marginTop: 3,
+    paddingTop: 3,
   },
 });
 

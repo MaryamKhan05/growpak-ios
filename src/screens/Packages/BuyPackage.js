@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     fontFamily: "CustomFont",
     textAlign: "right",
     color: COLORS.disableBlack,
+    paddingTop: 5,
   },
   textContainer: {
     flexDirection: "row",

@@ -58,7 +58,7 @@ const PersonalInfo = () => {
   const [agent, setAgent] = useState(false);
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
-  const [date, setDate] = useState(new Date(2024, 0, 1));
+  const [date, setDate] = useState(new Date(1900, 0, 1));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [pin, setPin] = useState("");

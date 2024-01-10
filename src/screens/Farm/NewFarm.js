@@ -121,26 +121,27 @@ const NewFarm = () => {
 
   const handlePlaceSelect = (data, details = null) => {
     if (details) {
-      const coord = {
-        latitude: details.geometry.location.lat,
-        longitude: details.geometry.location.lng,
-      };
+      console.log(details?.geometry?.location,'urdu details')
+      // const coord = {
+      //   latitude: details.geometry.location.lat,
+      //   longitude: details.geometry.location.lng,
+      // };
 
-      console.log("name of location", details.name);
-      setName(details.name);
+      // console.log("name of location", details.name);
+      // setName(details.name);
 
-      setSelectedPlace(coord);
-      console.log("....", coord);
+      // setSelectedPlace(coord);
+      // // console.log("....", coord);
 
-      // Move the map to the selected place
-      map.current?.animateToRegion({
-        ...coord,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
+      // // Move the map to the selected place
+      // map.current?.animateToRegion({
+      //   ...coord,
+      //   latitudeDelta: 0.0922,
+      //   longitudeDelta: 0.0421,
+      // });
 
-      // Dismiss the keyboard
-      Keyboard.dismiss();
+      // // Dismiss the keyboard
+      // Keyboard.dismiss();
     }
   };
 
@@ -384,7 +385,7 @@ const NewFarm = () => {
           mapType="hybrid"
           showsUserLocation={true}
           zoomTapEnabled={true}
-          showsMyLocationButton={false}
+          showsMyLocationButton={true}
           showsCompass={false}
           onPress={handleMapPress}
           minZoomLevel={16}

@@ -30,7 +30,7 @@ const JAZZCASH = () => {
   const [phone, setPhone] = useState();
   const [cnic, setCnic] = useState();
   const [loading, setLoading] = useState(false);
-  const text = Platform.OS == "android" ? styles.androidText : styles.iosText;
+  const text = styles.iosText;
   const response = useSelector((state) => state.api.jazzcash?.data);
 
   const paymentHandler = () => {
@@ -151,7 +151,7 @@ const JAZZCASH = () => {
               marginBottom: hp("10"),
             }}
           >
-            <DisabledButton text="آگے بڑھیں   " />
+            <DisabledButton text="آگے بڑھیں" />
           </View>
         )}
       </View>
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "CustomFont",
     textAlign: "center",
+    paddingTop: 5,
   },
 });
 export default JAZZCASH;

@@ -146,7 +146,7 @@ function EngMain() {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator style="large" color={COLORS.green} />
+        <ActivityIndicator style="large" color={"purple"} />
       </View>
     );
   }

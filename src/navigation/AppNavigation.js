@@ -1,10 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  View,
-  Platform,
-  PermissionsAndroid,
-  ActivityIndicator,
-} from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -60,7 +55,7 @@ import PackageDetails from "../screens/Packages/PackageDetails";
 import YoutubeScreen from "../components/youtube";
 import LearnMore from "../screens/Learnmore";
 import PdfButton from "../components/pdfButton";
-import { notifications, tokenWithId } from "../redux/action";
+import { notifications } from "../redux/action";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,18 +64,9 @@ const HomeStack = createNativeStackNavigator();
 function Main() {
   const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [tokenInStorage, setTokenInStorage] = useState(null);
   const [initialRoute, setInitialRoute] = useState("HomeTab");
   const [loading, setLoading] = useState(true);
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
-  const [notificationModal, setNotificationModalVisible] = useState(false);
   const [route, setRoute] = useState(null);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-
-  let logoutresponse = useSelector((state) => state.api.logout?.message);
-  // console.log(logoutresponse, "logout res");
 
   let token = useSelector((state) => state.api.token);
 
@@ -242,7 +228,7 @@ function Main() {
             component={SubBenefits}
             options={{
               headerTitleAlign: "center",
-              title: "کھیت سبسکرائیب کرنے کےفوائد",
+              title: "فوائد",
               headerTitleStyle: {
                 color: COLORS.white,
                 fontFamily: "CustomFont",

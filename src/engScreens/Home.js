@@ -85,11 +85,11 @@ const Home = () => {
     return unsubscribe;
   }, [navigation]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      checkNotificationStatus();
-    }, 5000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     checkNotificationStatus();
+  //   }, 5000);
+  // }, []);
 
   const checkNotificationStatus = async () => {
     const { status: existingStatus } =
@@ -171,11 +171,11 @@ const Home = () => {
   //   return unsubscribe;
   // }, [navigation]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      checkLocationPermission(); // Check permission when the component mounts
-    }, 10000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     checkLocationPermission(); // Check permission when the component mounts
+  //   }, 10000);
+  // }, []);
   const checkLocationPermission = async () => {
     let { status } = await Location.getForegroundPermissionsAsync();
     console.log(status, "the status of the location permissions ");
@@ -586,7 +586,13 @@ const Home = () => {
                                   // resizeMode="cover"
                                 >
                                   <TouchableOpacity
-                                    onPress={() => setModalVisible(false)}
+                                    onPress={() => [
+                                      setModalVisible(false),
+                                      checkNotificationStatus(),
+                                      setTimeout(() => {
+                                        checkLocationPermission();
+                                      }, 5000),
+                                    ]}
                                     style={{
                                       backgroundColor: COLORS.white,
                                       borderRadius: 50,

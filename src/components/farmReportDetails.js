@@ -5,9 +5,11 @@ import { Separator } from "./index";
 
 const FarmReportDetails = (props) => {
   return (
-    <View >
+    <View>
       <View style={styles.container}>
-        <Text>{props.text}</Text>
+        <Text style={{ fontFamily: "CustomFont", fontSize: 18 }}>
+          {props.text}
+        </Text>
         <Text style={styles.heading}>{props.heading} </Text>
       </View>
       <Separator />
@@ -20,13 +22,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 10,
+    paddingVertical: 10,
   },
   heading: {
     fontWeight: "600",
-    fontSize: 16,
-    fontFamily: "NotoSemi",
+    fontSize: 18,
+    fontFamily: "CustomFont",
     color: COLORS.textgrey,
+    paddingTop: 5,
   },
 });
 

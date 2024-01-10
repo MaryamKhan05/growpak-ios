@@ -1,18 +1,11 @@
-import {
-  Text,
-  View,
-  Platform,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { Text, View, Platform, StyleSheet, Image } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import COLORS from "../../assets/colors/colors";
 const BorderButton = (props) => {
-  const textStyle =
-    Platform.OS == "android" ? styles.androidText : styles.iosText;
+  const textStyle = styles.iosText;
   return (
     <View
       style={{
@@ -63,6 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 21,
     fontFamily: "CustomFont",
+    paddingVertical: 2,
   },
 });
 

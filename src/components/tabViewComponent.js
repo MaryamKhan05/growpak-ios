@@ -80,7 +80,7 @@ const TabViewComponent = (props) => {
             <Text style={[styles.text, { color: COLORS.textgrey }]}>
               Rs. {props.price} فی ایکڑ
             </Text>
-            <Text style={styles.heading}>{props.title} </Text>
+            <Text style={styles.heading}>{props.title}</Text>
           </View>
           <Text
             style={[
@@ -88,7 +88,7 @@ const TabViewComponent = (props) => {
               {
                 color: COLORS.textgrey,
                 textAlign: "right",
-                marginVertical: 10,
+                paddingVertical: 10,
               },
             ]}
           >

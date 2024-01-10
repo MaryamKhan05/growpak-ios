@@ -390,7 +390,7 @@ const Farm = () => {
                   fontFamily: "CustomFont",
                   textAlign: "center",
                   width: wp(70),
-                  marginVertical: 10,
+                  paddingVertical: 10,
                 }}
                 numberOfLines={2}
               >
@@ -552,6 +552,7 @@ const styles = StyleSheet.create({
     color: COLORS.textgrey,
     width: wp(15),
     textAlign: "right",
+    padding: 5,
   },
   value: {
     fontSize: 20,
