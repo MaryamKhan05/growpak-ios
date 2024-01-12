@@ -67,7 +67,7 @@ export const clearOtpE = () => {
 };
 
 export const signUp = createAsyncThunk("signup", async (data) => {
-  console.log(data,'data signup')
+  console.log(data, "data signup");
   try {
     const response = await axios.post(
       "https://lms.growpak.store:9090/api/auth/register",
@@ -424,14 +424,13 @@ export const getFarmerByAgentId = createAsyncThunk(
 );
 
 export const createNewFarm = createAsyncThunk("createNewFarm", async (data) => {
-  
   try {
     const token = await AsyncStorage.getItem("token");
     const userId = await AsyncStorage.getItem("userId");
     const id = JSON.parse(userId);
     const area = await AsyncStorage.getItem("area");
     const a = JSON.parse(area);
-    console.log(a,'data in create farm ')
+    console.log(a, "data in create farm ");
     const response = await axios.post(
       "https://lms.growpak.store:9090/api/farm/createFarm",
       {
@@ -459,7 +458,7 @@ export const createNewFarm = createAsyncThunk("createNewFarm", async (data) => {
     );
     await AsyncStorage.removeItem("coords");
     console.log(response.data);
-    await AsyncStorage.removeItem("area")
+    await AsyncStorage.removeItem("area");
 
     return { data: response.data, message: "Farm Created Successfully" };
   } catch (e) {
@@ -729,8 +728,10 @@ export const tokenWithoutId = createAsyncThunk(
 
 export const tokenWithId = createAsyncThunk("tokenWithId", async (data) => {
   try {
+    console.log(data, "data in token with id :::::::");
     const userId = await AsyncStorage.getItem("userId");
     const id = JSON.parse(userId);
+    console.log(id, "user id");
     const token = await AsyncStorage.getItem("token");
     const response = await axios.post(
       "https://lms.growpak.store:9090/api/auth/tokenWithUserId",
@@ -743,10 +744,11 @@ export const tokenWithId = createAsyncThunk("tokenWithId", async (data) => {
     );
 
     console.log("res-tokenWithId::::::", response.data);
-    return response.data;
-  } catch (error) {
+    return { data: response.data, message: response.data.message };
+  } catch (e) {
+    let error = e.response?.data?.errors[0]?.msg;
     console.log("err - tokenWithId:::::", error.response.data);
-    throw e;
+    throw error;
   }
 });
 
@@ -958,7 +960,11 @@ export const appLang = (data) => {
 export const updateUserLang = createAsyncThunk(
   "updateUserLang",
   async (data) => {
-    console.log(data,id,'language::::::::::; languagelanguagelanguagelanguagelanguage ,,,,,,,,,,,,,,,,,,')
+    console.log(
+      data,
+      id,
+      "language::::::::::; languagelanguagelanguagelanguagelanguage ,,,,,,,,,,,,,,,,,,"
+    );
     try {
       const userId = await AsyncStorage.getItem("userId");
       const id = JSON.parse(userId);
@@ -1031,7 +1037,6 @@ export const getPlantImages = createAsyncThunk(
     }
   }
 );
-
 
 export const getWaterImages = createAsyncThunk(
   "getWaterImages",

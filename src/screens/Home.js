@@ -29,6 +29,7 @@ import * as _ from "lodash";
 //internal imports
 import COLORS from "../../assets/colors/colors";
 import { Elements, Card, ActiveButton } from "../components/index";
+import { useToast } from "react-native-toast-notifications";
 import {
   getAllBanners,
   getForecast,
@@ -52,6 +53,7 @@ Notifications.setNotificationHandler({
 });
 const Home = () => {
   const dispatch = useDispatch();
+  const toast = useToast();
   const navigation = useNavigation();
   const [errorMsg, setErrorMsg] = useState(null);
   const [location, setLocation] = useState(null);
@@ -71,6 +73,15 @@ const Home = () => {
   const [notificationModal, setNotificationModalVisible] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const notificationSuccess = useSelector(
+    (state) => state.api.tokenWithId?.successMessage
+  );
+  console.log(notificationSuccess, "notification success message");
+  const notificaitonError = useSelector(
+    (state) => state.api.tokenWithId?.errorMessage
+  );
+  console.log(notificaitonError, "notification error message");
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -103,6 +114,29 @@ const Home = () => {
   //   }, 5000);
   // }, []);
 
+  // useEffect(() => {
+  //   if (notificationSuccess) {
+  //     toast.show(notificationSuccess, {
+  //       type: "success",
+  //       placement: "bottom",
+  //       duration: 2000,
+  //       offset: 30,
+  //       animationType: "zoom-in",
+  //       swipeEnabled: true,
+  //     });
+  //   }
+  //   if (notificaitonError) {
+  //     toast.show(notificaitonError, {
+  //       type: "success",
+  //       placement: "bottom",
+  //       duration: 2000,
+  //       offset: 30,
+  //       animationType: "zoom-in",
+  //       swipeEnabled: true,
+  //     });
+  //   }
+  // }, [notificaitonError, notificationSuccess]);
+
   const checkNotificationStatus = async () => {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -112,11 +146,19 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    if (expoPushToken) {
+      // alert(`expo push token is here ${expoPushToken}`);
+      dispatch(tokenWithId({ token, platform: "ios" }));
+    }
+  }, [expoPushToken]);
+
   const requestNotificationPermission = async () => {
+    // alert("inside requestNotificationPermission");
     setNotificationModalVisible(false);
-    registerForPushNotificationsAsync().then(
-      (token) => setExpoPushToken(token),
-      dispatch(tokenWithId({ token, platform: "ios" }))
+    registerForPushNotificationsAsync().then((token) =>
+      // dispatch(tokenWithId({ token, platform: "ios" }))
+      setExpoPushToken(token)
     );
 
     notificationListener.current =
@@ -146,10 +188,47 @@ const Home = () => {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log("notification token", token);
+    // token = (await Notifications.getExpoPushTokenAsync()).data;
+    // alert("calling device token");
+    let devicePushToken = await Notifications.getDevicePushTokenAsync();
+    // token = (await Notifications.getExpoPushTokenAsync()).data;
+    // alert(`device push token is here ${devicePushToken}`);
+
+    token = await Notifications.getExpoPushTokenAsync({ devicePushToken });
+
+    // alert(`notification token ${token}`);
+    dispatch(tokenWithId(token, "ios"));
 
     return token;
+  }
+
+  useEffect(() => {
+    saveExpoPushToken();
+  }, []);
+
+  async function saveExpoPushToken() {
+    let expoPushToken;
+
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+
+    if (existingStatus === "granted") {
+      let devicePushToken = await Notifications.getDevicePushTokenAsync();
+      // token = (await Notifications.getExpoPushTokenAsync()).data;
+      // alert(`device push token is here ${devicePushToken}`);
+      // console.log(devicePushToken, "device push token");
+
+      expoPushToken = await Notifications.getExpoPushTokenAsync({
+        devicePushToken,
+      });
+      console.log(expoPushToken, "expo pushtoken");
+      let token = expoPushToken?.data;
+      // alert(`notification token ${token}`);
+      dispatch(tokenWithId(token, "ios"));
+    }
+    // token = (await Notifications.getExpoPushTokenAsync()).data;
+    // alert("calling device token");
   }
 
   useEffect(() => {

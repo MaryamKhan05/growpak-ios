@@ -694,13 +694,23 @@ const reducer = (state = initialState, action) => {
     case "tokenWithId/fulfilled": {
       return {
         ...state,
-        tokenWithId: { data: action.payload, loading: false, error: null },
+        tokenWithId: {
+          data: action.payload,
+          loading: false,
+          error: null,
+          successMessage: action.payload.message,
+        },
       };
     }
     case "tokenWithId/rejected":
       return {
         ...state,
-        forecast: { data: null, loading: false, error: action.payload },
+        forecast: {
+          data: null,
+          loading: false,
+          error: action.payload,
+          errorMessage: action.error.message,
+        },
       };
 
     case "notifications/pending": {
@@ -712,13 +722,23 @@ const reducer = (state = initialState, action) => {
     case "notifications/fulfilled": {
       return {
         ...state,
-        notifications: { data: action.payload, loading: false, error: null },
+        notifications: {
+          data: action.payload,
+          loading: false,
+          error: null,
+          successMessage: action.payload.message,
+        },
       };
     }
     case "notifications/rejected":
       return {
         ...state,
-        forecast: { data: null, loading: false, error: action.payload },
+        forecast: {
+          data: null,
+          loading: false,
+          error: action.payload,
+          errorMessage: action.error.message,
+        },
       };
 
     case "postJazzcashResponse/pending": {

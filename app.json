@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "GrowPak",
-    "slug": "GrowPak",
-    "version": "1.5.4",
+    "name": "GrowPak-Agriculture",
+    "slug": "GrowPak-Agriculture",
+    "version": "1.5.8",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "growtechsol.com",
+      "bundleIdentifier": "www.growpak.store",
       "config": {
         "googleMapsApiKey": "AIzaSyDj2NyGKqea5gAgspcjnG8PfGVZ3tlcwKA"
       }
@@ -35,8 +35,8 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
       ],
-      "package": "growtechsol.com",
-      "versionCode": 54
+      "package": "www.growpak.store",
+      "versionCode": 58
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -51,7 +51,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(GrowPak) to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow $(GrowPak) to use your ."
         }
       ],
       [
@@ -60,7 +60,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "3743556b-a04d-4d7f-9f7c-1605ad8ffe35"
+        "projectId": "fa3e41b6-165d-4e73-bb6d-6710fcf9810c"
       }
     }
   }

@@ -57,7 +57,7 @@ const ForgotPassword = () => {
     (state) => state.api.code?.data?.countryPhoneData
   );
 
-  const successMessage = useSelector((state) => state.api?.otp.successMessage);
+  const successMessage = useSelector((state) => state.api?.otp?.successMessage);
   const errorMessage = useSelector((state) => state.api?.otp?.errorMessage);
 
   const forgetSuccess = useSelector(

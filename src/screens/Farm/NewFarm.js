@@ -74,8 +74,10 @@ const NewFarm = () => {
   const [carbon, setCarbon] = useState(false);
   const [area, setArea] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [videoModal, setVideoModal] = useState(false);
+  const [videoModal, setVideoModal] = useState(true);
   const [snapshotImage, setSnapshotImage] = useState("");
+  const [userLocationButton, setUserLocationButton] = useState(false);
+  const [uLocation, setULocation] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -121,27 +123,27 @@ const NewFarm = () => {
 
   const handlePlaceSelect = (data, details = null) => {
     if (details) {
-      console.log(details?.geometry?.location,'urdu details')
-      // const coord = {
-      //   latitude: details.geometry.location.lat,
-      //   longitude: details.geometry.location.lng,
-      // };
+      console.log(details?.geometry?.location, "urdu details");
+      const coord = {
+        latitude: details.geometry.location.lat,
+        longitude: details.geometry.location.lng,
+      };
 
-      // console.log("name of location", details.name);
-      // setName(details.name);
+      console.log("name of location", details.name);
+      setName(details.name);
 
-      // setSelectedPlace(coord);
-      // // console.log("....", coord);
+      setSelectedPlace(coord);
+      // console.log("....", coord);
 
-      // // Move the map to the selected place
-      // map.current?.animateToRegion({
-      //   ...coord,
-      //   latitudeDelta: 0.0922,
-      //   longitudeDelta: 0.0421,
-      // });
+      // Move the map to the selected place
+      map.current?.animateToRegion({
+        ...coord,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
 
-      // // Dismiss the keyboard
-      // Keyboard.dismiss();
+      // Dismiss the keyboard
+      Keyboard.dismiss();
     }
   };
 
@@ -153,9 +155,6 @@ const NewFarm = () => {
     };
     setPolygonPoints([...polygonPoints, newPoint]);
   };
-  useEffect(() => {
-    setVideoModal(true);
-  }, []);
   const deleteLastPolygon = () => {
     if (polygonPoints.length > 0) {
       const updatedPolygonPoints = [...polygonPoints];
@@ -241,6 +240,9 @@ const NewFarm = () => {
     );
     if (status !== "granted") {
       setLocationModal(true); // Enable the modal if permission is not granted
+    } else {
+      setULocation(true);
+      setUserLocationButton(true);
     }
   };
   const requestLocationPermission = async () => {
@@ -250,9 +252,11 @@ const NewFarm = () => {
       if (status === "granted") {
         // If permission is granted, proceed with getting the location
         let location = await Location.getCurrentPositionAsync({});
+        setULocation(true);
+        setUserLocationButton(true);
         setLocation(location);
-        setLongitude(location.coords.longitude);
-        setLatitude(location.coords.latitude);
+        setLongitude(location?.coords?.longitude);
+        setLatitude(location?.coords?.latitude);
         // Close the modal after granting permission
       } else {
         console.log("Permission to access location was denied");
@@ -383,9 +387,9 @@ const NewFarm = () => {
           style={{ height: "100%", zIndex: -1, width: "100%" }}
           initialRegion={INITIAL_POSITION}
           mapType="hybrid"
-          showsUserLocation={true}
+          showsUserLocation={uLocation}
+          showsMyLocationButton={userLocationButton}
           zoomTapEnabled={true}
-          showsMyLocationButton={true}
           showsCompass={false}
           onPress={handleMapPress}
           minZoomLevel={16}
@@ -511,6 +515,7 @@ const NewFarm = () => {
           </View>
         </View>
       </Modal>
+
       {/* video modal */}
       <Modal animationType="fade" transparent={true} visible={videoModal}>
         <TouchableWithoutFeedback onPress={() => setVideoModal(false)}>
@@ -541,6 +546,7 @@ const NewFarm = () => {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
       {/* location modal */}
       <Modal animationType="fade" visible={locationModal} transparent={true}>
         <View
@@ -568,13 +574,13 @@ const NewFarm = () => {
               resizeMode="contain"
             />
             <Text style={styles.locationHeading}>
-              GrowPak requires your current location to show the current
-              weather. Please grant location access to provide you with accurate
-              weather information.
+              GrowPak requires your current location to create your farm, show
+              weather details. Please grant location access to enjoy all
+              features.
             </Text>
             <View style={styles.locationButtonRow}>
               <TouchableOpacity
-                // onPress={requestLocationPermission}
+                onPress={requestLocationPermission}
                 style={styles.locationButton}
               >
                 <Text style={styles.locationButtonText}>Allow</Text>

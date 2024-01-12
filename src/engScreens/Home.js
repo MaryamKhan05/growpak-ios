@@ -39,6 +39,7 @@ import {
   getWeather,
   homeCount,
   notifications,
+  tokenWithId,
   updateUserLang,
 } from "../redux/action";
 
@@ -103,7 +104,7 @@ const Home = () => {
   const requestNotificationPermission = async () => {
     setNotificationModalVisible(false);
     registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
+      dispatch(tokenWithId({ token, platform: "ios" }))
     );
 
     notificationListener.current =
@@ -157,7 +158,7 @@ const Home = () => {
   };
   useEffect(() => {
     if (userByIdResponse) {
-      let n = userByIdResponse?.name;
+      let n = userByIdResponse?.name;  
       let t = userByIdResponse?.type;
       setType(t);
     }
