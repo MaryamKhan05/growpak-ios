@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Platform,
   Modal,
-} from "react-native";  
+} from "react-native";
 import Swiper from "react-native-swiper";
 import {
   widthPercentageToDP as wp,
@@ -286,16 +286,14 @@ const PersonalInfo = () => {
     showMode("date");
   };
 
- 
-
   const checkImagePermission = async () => {
     let { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
     console.log(status, "image permission status on personal info urdu screen");
 
     if (status !== "granted") {
       setImageModal(true);
-    }else{
-      pickImage()
+    } else {
+      pickImage();
     }
   };
 
@@ -599,7 +597,7 @@ const PersonalInfo = () => {
               style={[styles.inputContainer, { marginBottom: hp("1") }]}
               onPress={showDatepicker}
             >
-              <Text style={{  width: "100%" }}>{dob}</Text>
+              <Text style={{ width: "100%" }}>{dob}</Text>
             </TouchableOpacity>
             {dobError && (
               <Text style={styles.error}>Date of Birth is required</Text>
@@ -959,7 +957,6 @@ const PersonalInfo = () => {
         </View>
       </Modal>
 
-
       {/* image permission modal */}
       <Modal animationType="fade" visible={imageModal} transparent={true}>
         <View
@@ -991,20 +988,12 @@ const PersonalInfo = () => {
               To use the GrowPak application, please grant access to your photos
               to upload your profile picture.
             </Text>
-            <View style={styles.locationButtonRow}>
-              <TouchableOpacity
-                onPress={pickImage}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setImageModal(false)}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity onPress={pickImage} style={styles.locationButton}>
+              <Text style={styles.locationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -1145,8 +1134,8 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp(70),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

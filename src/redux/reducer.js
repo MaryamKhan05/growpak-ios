@@ -1094,6 +1094,46 @@ const reducer = (state = initialState, action) => {
           error: action.payload,
         },
       };
+
+    case "deleteAccount/pending": {
+      return {
+        ...state,
+        deleteAccount: { ...state.deleteAccount, loading: true },
+      };
+    }
+    case "deleteAccount/fulfilled": {
+      return {
+        ...state,
+        deleteAccount: {
+          data: action.payload,
+          loading: false,
+          successMessage: action.payload.message,
+          error: null,
+        },
+      };
+    }
+    case "deleteAccount/rejected":
+      return {
+        ...state,
+        deleteAccount: {
+          data: null,
+          loading: false,
+          errorMessage: action.error.message,
+          error: action.payload,
+        },
+      };
+
+    case "clearDeleteData": {
+      return {
+        ...state,
+        login: {
+          ...state.deleteAccount,
+          data: null,
+          errorMessage: null,
+          successMessage: null,
+        },
+      };
+    }
   }
 };
 export default reducer;

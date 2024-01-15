@@ -25,11 +25,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
 import {
+  clearDeleteData,
   clearForgetSuccessMessage,
   clearLoginData,
   clearLoginSuccessMessage,
   clearSignupSuccessMessage,
+  deleteAccount,
   deleteToken,
   getUserById,
   logout,
@@ -38,11 +41,24 @@ import {
 const Menu = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const toast = useToast();
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState(null);
   const [type, setType] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [deleteAccontModal, setDeleteAccountModal] = useState(false);
+
   let loginresponse = useSelector((state) => state.api.login?.data?.data?.data);
-  console.log(loginresponse);
+
+  const deleteSuccess = useSelector(
+    (state) => state.api.deleteAccount?.successMessage
+  );
+
+  const deleteFailed = useSelector(
+    (state) => state.api.deleteAccount?.errorMessage
+  );
+  console.log(deleteFailed, "deleteFailed");
+  console.log(deleteSuccess, "deleteSuccess");
 
   useEffect(() => {
     dispatch(getUserById());
@@ -60,6 +76,49 @@ const Menu = () => {
       setType(t);
     }
   }, [userByIdResponse]);
+
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.show(deleteSuccess, {
+        type: "success",
+        placement: "bottom",
+        duration: 2000,
+        offset: 30,
+        animationType: "zoom-in",
+        swipeEnabled: true,
+      });
+      deleteAccount();
+    }
+    if (deleteFailed) {
+      toast.show(deleteFailed, {
+        type: "danger",
+        placement: "bottom",
+        duration: 2000,
+        offset: 30,
+        animationType: "zoom-in",
+        swipeEnabled: true,
+      });
+    }
+  }, [deleteFailed, deleteSuccess]);
+
+  const deleteHandler = async () => {
+    // setLoading(true);
+    let phone = await AsyncStorage.getItem("Phone");
+    let token = await AsyncStorage.getItem("token");
+    console.log(phone, "before clearing", token);
+
+    try {
+      await AsyncStorage.clear();
+      await AsyncStorage.removeItem("token");
+      console.log("cleared storage");
+      dispatch(clearLoginData());
+      dispatch(clearDeleteData());
+      dispatch(deleteToken());
+    } catch (e) {
+      console.log("errror clearing storage", e);
+    }
+    console.log(token, "token after");
+  };
 
   const logoutHandler = async () => {
     setLoader(true);
@@ -165,6 +224,24 @@ const Menu = () => {
           {/* logout button */}
           <View style={{ margin: 10 }} />
 
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => setDeleteAccountModal(true)}
+          >
+            <Entypo
+              name="chevron-small-left"
+              style={styles.icon}
+              size={20}
+              color={COLORS.textgrey}
+            />
+            <Text style={styles.text}> ڈیلیٹ اکاؤنٹ </Text>
+            <AntDesign
+              name="deleteuser"
+              size={20}
+              style={{ marginHorizontal: 20 }}
+              color={COLORS.disableBlack}
+            />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.card} onPress={() => setLoader(true)}>
             <Entypo
               name="chevron-small-left"
@@ -181,7 +258,7 @@ const Menu = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-
+      {/* logout modal */}
       <Modal animationType="fade" transparent={true} visible={loader}>
         <View
           style={{
@@ -225,6 +302,84 @@ const Menu = () => {
               <TouchableOpacity
                 onPress={() => setLoader(false)}
                 style={{ margin: 10 }}
+              >
+                <Text style={styles.no}>نہیں</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* loading modal */}
+      <Modal animationType="fade" transparent={true} visible={loading}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator style="large" color={COLORS.green} />
+        </View>
+      </Modal>
+
+      {/* delete account modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={deleteAccontModal}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: hp(4),
+              alignItems: "center",
+              width: wp(80),
+              borderRadius: 20,
+            }}
+          >
+            <Text style={styles.deleteHeading}> ڈیلیٹ اکاؤنٹ </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "400",
+                fontFamily: "CustomFont",
+                marginVertical: 15,
+                textAlign: "center",
+              }}
+            >
+              کیا آپ واقعی اپنا اکاؤنٹ ڈیلیٹ کرنا چاہتے ہیں؟
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 10,
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => [
+                  deleteHandler(),
+                  setDeleteAccountModal(false),
+                  dispatch(deleteAccount()),
+                ]}
+                style={styles.button}
+              >
+                <Text style={styles.yes}>جی ہاں</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setDeleteAccountModal(false)}
+                style={styles.button}
               >
                 <Text style={styles.no}>نہیں</Text>
               </TouchableOpacity>
@@ -314,6 +469,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "red",
     fontFamily: "CustomFont",
+  },
+  deleteHeading: {
+    fontFamily: "CustomFont",
+    fontSize: 20,
+    fontWeight: "900",
   },
 });
 

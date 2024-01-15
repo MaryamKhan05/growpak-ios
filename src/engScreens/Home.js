@@ -158,7 +158,7 @@ const Home = () => {
   };
   useEffect(() => {
     if (userByIdResponse) {
-      let n = userByIdResponse?.name;  
+      let n = userByIdResponse?.name;
       let t = userByIdResponse?.type;
       setType(t);
     }
@@ -589,10 +589,7 @@ const Home = () => {
                                   <TouchableOpacity
                                     onPress={() => [
                                       setModalVisible(false),
-                                      checkNotificationStatus(),
-                                      setTimeout(() => {
-                                        checkLocationPermission();
-                                      }, 5000),
+                                      checkLocationPermission(),
                                     ]}
                                     style={{
                                       backgroundColor: COLORS.white,
@@ -876,20 +873,15 @@ const Home = () => {
               weather. Please grant location access to provide you with accurate
               weather information.
             </Text>
-            <View style={styles.locationButtonRow}>
-              <TouchableOpacity
-                onPress={requestLocationPermission}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setLocationModal(false)}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity
+              onPress={requestLocationPermission}
+              style={styles.locationButton}
+            >
+              <Text style={styles.locationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -1072,8 +1064,8 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp(70),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

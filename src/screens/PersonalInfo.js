@@ -282,8 +282,8 @@ const PersonalInfo = () => {
 
     if (status !== "granted") {
       setImageModal(true);
-    }else{
-      pickImage()
+    } else {
+      pickImage();
     }
   };
 
@@ -972,22 +972,15 @@ const PersonalInfo = () => {
             />
             <Text style={styles.locationHeading}>
               GrowPak requires your profile picture for creating your account.
-              To use the GrowPak application, please grant access to your photos.
+              To use the GrowPak application, please grant access to your
+              photos.
             </Text>
-            <View style={styles.locationButtonRow}>
-              <TouchableOpacity
-                onPress={pickImage}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setImageModal(false)}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity onPress={pickImage} style={styles.locationButton}>
+              <Text style={styles.locationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -1011,7 +1004,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "400",
     fontFamily: "CustomFont",
-    paddingVertical:5
+    paddingVertical: 5,
   },
   radiotext: {
     fontSize: 20,
@@ -1110,8 +1103,8 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp(70),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

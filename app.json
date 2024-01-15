@@ -2,7 +2,7 @@
   "expo": {
     "name": "GrowPak-Agriculture",
     "slug": "GrowPak-Agriculture",
-    "version": "1.5.8",
+    "version": "1.5.9",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
@@ -36,7 +36,7 @@
         "android.permission.FOREGROUND_SERVICE"
       ],
       "package": "www.growpak.store",
-      "versionCode": 58
+      "versionCode": 59
     },
     "web": {
       "favicon": "./assets/favicon.png"

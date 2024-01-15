@@ -1111,3 +1111,31 @@ export const clearNitrogenImages = () => {
     type: "clearNitrogenImages",
   };
 };
+
+export const deleteAccount = createAsyncThunk("deleteAccount", async (id) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const userId = await AsyncStorage.getItem("userId");
+    const id = JSON.parse(userId);
+    const response = await axios.delete(
+      `https://lms.growpak.store:9090/api/auth/deleteUserById?user_id=${id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("res-deleteAccount", response.data);
+    return { data: response.data, message: response.data.message };
+  } catch (e) {
+    let error = e.response?.data?.errors[0]?.msg;
+    console.log("err - deleteAccount", e.response?.data?.errors[0]?.msg);
+    throw error;
+  }
+});
+export const clearDeleteData = () => {
+  return {
+    type: "clearDeleteData",
+  };
+};

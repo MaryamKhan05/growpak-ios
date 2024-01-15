@@ -690,10 +690,7 @@ const Home = () => {
                                   <TouchableOpacity
                                     onPress={() => [
                                       setModalVisible(false),
-                                      checkNotificationStatus(),
-                                      setTimeout(() => {
-                                        checkLocationPermission();
-                                      }, 5000),
+                                        checkLocationPermission()
                                     ]}
                                     style={{
                                       backgroundColor: COLORS.white,
@@ -977,29 +974,24 @@ const Home = () => {
               weather. Please grant location access to provide you with accurate
               weather information.
             </Text>
-            <View style={styles.locationButtonRow}>
-              <TouchableOpacity
-                onPress={() => [
-                  setLocationModal(false),
-                  requestLocationPermission(),
-                ]}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setLocationModal(false)}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity
+              onPress={() => [
+                setLocationModal(false),
+                requestLocationPermission(),
+              ]}
+              style={styles.locationButton}
+            >
+              <Text style={styles.locationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
       {/* notification modal  */}
-      <Modal
+      {/* <Modal
         animationType="fade"
         visible={notificationModal}
         transparent={true}
@@ -1034,26 +1026,21 @@ const Home = () => {
               Mandi rates, and other important information. Don’t miss out on
               any crucial updates - allow GrowPak to keep you informed.
             </Text>
-            <View style={styles.notificationButtonRow}>
-              <TouchableOpacity
-                onPress={() => [
-                  setLocationModal(false),
-                  requestNotificationPermission(),
-                ]}
-                style={styles.notificationButton}
-              >
-                <Text style={styles.notificationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setNotificationModalVisible(false)}
-                style={styles.notificationButton}
-              >
-                <Text style={styles.notificationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.notificationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity
+              onPress={() => [
+                setLocationModal(false),
+                requestNotificationPermission(),
+              ]}
+              style={styles.notificationButton}
+            >
+              <Text style={styles.notificationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
       <StatusBar style="dark" />
     </SafeAreaView>
   );
@@ -1200,8 +1187,8 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp(70),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
@@ -1211,12 +1198,9 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsRegular",
     fontSize: 14,
   },
-  notificationButtonRow: {
-    flexDirection: "row",
-    gap: 10,
-  },
+  notificationButtonRow: {},
   notificationImage: {
-    height: hp(30),
+    height: hp(20),
     width: wp(70),
     borderRadius: 10,
     overflow: "hidden",
@@ -1229,8 +1213,8 @@ const styles = StyleSheet.create({
   },
   notificationButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp("70%"),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

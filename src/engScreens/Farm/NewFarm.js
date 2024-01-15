@@ -871,10 +871,6 @@ const NewFarm = () => {
     );
   };
 
-  useEffect(() => {
-    checkLocationPermission(); // Check permission when the component mounts
-  }, []);
-
   const checkLocationPermission = async () => {
     let { status } = await Location.getForegroundPermissionsAsync();
     console.log(
@@ -1106,7 +1102,6 @@ const NewFarm = () => {
         }}
       />
       {/* area modal  */}
-
       <Modal animationType="fade" visible={modalVisible} transparent>
         <View
           style={{
@@ -1156,7 +1151,9 @@ const NewFarm = () => {
 
       {/* video modal */}
       <Modal animationType="fade" transparent={true} visible={videoModal}>
-        <TouchableWithoutFeedback onPress={() => setVideoModal(false)}>
+        <TouchableWithoutFeedback
+          onPress={() => [setVideoModal(false), checkLocationPermission()]}
+        >
           <View style={styles.dotCenteredView}>
             <View style={styles.dotModalView}>
               <View
@@ -1214,20 +1211,15 @@ const NewFarm = () => {
               weather details. Please grant location access to enjoy all
               features.
             </Text>
-            <View style={styles.locationButtonRow}>
-              <TouchableOpacity
-                onPress={requestLocationPermission}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Allow</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setLocationModal(false)}
-                style={styles.locationButton}
-              >
-                <Text style={styles.locationButtonText}>Maybe Later</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationHeading}>
+              You can change this option later in the settings app
+            </Text>
+            <TouchableOpacity
+              onPress={requestLocationPermission}
+              style={styles.locationModalButton}
+            >
+              <Text style={styles.locationButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -1364,10 +1356,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     margin: 10,
   },
-  locationButton: {
+  locationModalButton: {
     backgroundColor: COLORS.disableGrey,
-    padding: 10,
-    width: wp(30),
+    padding: 15,
+    width: wp(70),
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

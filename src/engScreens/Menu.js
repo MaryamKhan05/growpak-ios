@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -19,20 +20,35 @@ import { MenuHeading, MenuCard } from "../engComponents/Index";
 import COLORS from "../../assets/colors/colors";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { useToast } from "react-native-toast-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearDeleteData,
   clearLoginData,
+  deleteAccount,
   deleteToken,
   getUserById,
 } from "../redux/action";
 
 const Menu = () => {
   const dispatch = useDispatch();
+  const toast = useToast();
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState(null);
   const [type, setType] = useState(null);
+  const [deleteAccontModal, setDeleteAccountModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   let loginresponse = useSelector((state) => state.api.login?.data?.data?.data);
-  console.log(loginresponse);
+  const deleteSuccess = useSelector(
+    (state) => state.api.deleteAccount?.successMessage
+  );
+
+  const deleteFailed = useSelector(
+    (state) => state.api.deleteAccount?.errorMessage
+  );
+  console.log(deleteFailed, "deleteFailed");
+  console.log(deleteSuccess, "deleteSuccess");
 
   useEffect(() => {
     dispatch(getUserById());
@@ -51,6 +67,48 @@ const Menu = () => {
     }
   }, [userByIdResponse]);
 
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.show(deleteSuccess, {
+        type: "success",
+        placement: "bottom",
+        duration: 2000,
+        offset: 30,
+        animationType: "zoom-in",
+        swipeEnabled: true,
+      });
+      deleteAccount();
+    }
+    if (deleteFailed) {
+      toast.show(deleteFailed, {
+        type: "danger",
+        placement: "bottom",
+        duration: 2000,
+        offset: 30,
+        animationType: "zoom-in",
+        swipeEnabled: true,
+      });
+    }
+  }, [deleteFailed, deleteSuccess]);
+
+  const deleteHandler = async () => {
+    let phone = await AsyncStorage.getItem("Phone");
+    let token = await AsyncStorage.getItem("token");
+    console.log(phone, "before clearing", token);
+
+    try {
+      await AsyncStorage.clear();
+      await AsyncStorage.removeItem("token");
+      console.log("cleared storage");
+      dispatch(clearLoginData());
+      dispatch(clearDeleteData());
+      dispatch(deleteToken());
+    } catch (e) {
+      console.log("errror clearing storage", e);
+    }
+    console.log(token, "token after");
+  };
+
   const logoutHandler = async () => {
     setLoader(true);
     let phone = await AsyncStorage.getItem("Phone");
@@ -60,6 +118,7 @@ const Menu = () => {
       await AsyncStorage.clear();
       await AsyncStorage.removeItem("token");
       console.log("cleared storage");
+
       dispatch(clearLoginData());
       dispatch(deleteToken());
     } catch (e) {
@@ -67,6 +126,7 @@ const Menu = () => {
     }
     console.log(token, "token after");
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -101,7 +161,6 @@ const Menu = () => {
               </Text>
               <Text style={styles.agent}>{type}</Text>
             </View>
-          
           </View>
 
           <MenuHeading text="Manage" />
@@ -165,8 +224,40 @@ const Menu = () => {
             image={require("../../assets/linkedin.png")}
             url="https://www.linkedin.com/company/growtechsol/"
           />
-          {/* logout button */}
           <View style={{ margin: 10 }} />
+       {/* delete account */}
+
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => setDeleteAccountModal(true)}
+          >
+            <AntDesign
+              name="deleteuser"
+              size={20}
+              style={{ marginHorizontal: 20 }}
+              color={COLORS.disableBlack}
+            />
+            <Text
+              style={{
+                textAlign: "left",
+                fontSize: 14,
+                fontFamily: "PoppinsRegular",
+                color: COLORS.disableBlack,
+                width: "72%",
+              }}
+            >
+              Delete Account
+            </Text>
+            <Entypo
+              name="chevron-small-right"
+              style={styles.icon}
+              size={20}
+              color={COLORS.textgrey}
+            />
+          </TouchableOpacity>
+
+
+   {/* logout button */}
 
           <TouchableOpacity style={styles.card} onPress={() => setLoader(true)}>
             <Image
@@ -195,7 +286,12 @@ const Menu = () => {
         </ScrollView>
       </View>
 
-      <Modal animationType="fade" transparent={true} visible={loader}>
+      {/* delete account modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={deleteAccontModal}
+      >
         <View
           style={{
             flex: 1,
@@ -209,40 +305,126 @@ const Menu = () => {
               backgroundColor: "white",
               padding: hp(4),
               alignItems: "center",
-              width: wp(70),
-              borderRadius: 10,
+              width: wp(80),
+              borderRadius: 20,
             }}
           >
+            <Text style={styles.deleteHeading}>Delete Account</Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: "400",
-                fontFamily: "CustomFont",
+                fontFamily: "PoppinsRegular",
+                marginVertical: 15,
+                textAlign: "center",
               }}
             >
-              Exit App?
+              Are you sure you want to delete your Account? This will
+              permanently erase your account from GrowPak App.
             </Text>
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-evenly",
-                padding: 10,
+                gap: 10,
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <TouchableOpacity
-                onPress={() => [logoutHandler(), setLoader(false)]}
-                style={{ margin: 10 }}
+                onPress={() => [
+                  deleteHandler(),
+                  setDeleteAccountModal(false),
+                  dispatch(deleteAccount()),
+                ]}
+                style={styles.button}
               >
-                <Text style={styles.yes}>Yes </Text>
+                <Text style={styles.yes}>Yes</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => setLoader(false)}
-                style={{ margin: 10 }}
+                onPress={() => setDeleteAccountModal(false)}
+                style={styles.button}
               >
                 <Text style={styles.no}>No</Text>
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+      </Modal>
+      {/* logout modal  */}
+      <Modal animationType="fade" transparent={true} visible={loader}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              alignItems: "center",
+              width: wp(80),
+              borderRadius: 10,
+              height: hp(30),
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "400",
+                fontFamily: "PoppinsMedium",
+                marginTop: 20,
+              }}
+            >
+              Exit App
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "400",
+                fontFamily: "PoppinsRegular",
+                marginBottom: 20,
+              }}
+            >
+              Are you sure you want to logout?
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 10,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => [logoutHandler(), setLoader(false)]}
+                style={styles.button}
+              >
+                <Text style={styles.yes}>Yes </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setLoader(false)}
+                style={styles.button}
+              >
+                <Text style={styles.no}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* loading modal */}
+      <Modal animationType="fade" transparent={true} visible={loading}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.overlay,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator style="large" color={COLORS.green} />
         </View>
       </Modal>
       <StatusBar style="light" />
@@ -319,6 +501,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "red",
     fontFamily: "PoppinsMedium",
+  },
+  button: {
+    backgroundColor: COLORS.disableGrey,
+    padding: 15,
+    borderRadius: 10,
+    width: wp(30),
+    alignItems: "center",
+  },
+  deleteHeading: {
+    fontFamily: "PoppinsSemi",
+    fontSize: 16,
   },
 });
 
