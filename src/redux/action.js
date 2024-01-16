@@ -67,7 +67,7 @@ export const clearOtpE = () => {
 };
 
 export const signUp = createAsyncThunk("signup", async (data) => {
-  console.log(data, "data signup");
+  console.log(data.dob, "data signup");
   try {
     const response = await axios.post(
       "https://lms.growpak.store:9090/api/auth/register",

@@ -352,8 +352,6 @@ const PersonalInfo = () => {
     if (
       mobilenumber !== "" &&
       name !== "" &&
-      gender !== "" &&
-      dob !== "" &&
       countryid !== "" &&
       provinceid !== "" &&
       profession !== "" &&
@@ -397,12 +395,12 @@ const PersonalInfo = () => {
     if (!name) {
       setNameError(true);
     }
-    if (!gender) {
-      setGenderError(true);
-    }
-    if (!dob) {
-      setDobError(true);
-    }
+    // if (!gender) {
+    //   setGenderError(true);
+    // }
+    // if (!dob) {
+    //   setDobError(true);
+    // }
     if (!image) {
       setImageError(true);
     }
@@ -411,12 +409,6 @@ const PersonalInfo = () => {
   useEffect(() => {
     if (name) {
       setNameError(false);
-    }
-    if (gender) {
-      setGenderError(false);
-    }
-    if (dob) {
-      setDobError(false);
     }
     if (image) {
       setImageError(false);
@@ -799,7 +791,7 @@ const PersonalInfo = () => {
               onChangeText={(text) => setName(text)}
             />
             {nameError && <Text style={styles.error}>نام درج کریں</Text>}
-            <Text style={styles.text}> صنف </Text>
+            <Text style={styles.text}> صنف (آپشنل)</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -871,8 +863,7 @@ const PersonalInfo = () => {
                 )}
               </View>
             </View>
-            {genderError && <Text style={styles.error}>صنف منتخب کریں</Text>}
-            <Text style={text}>پیدائش </Text>
+            <Text style={text}>پیدائش (آپشنل)</Text>
 
             <TouchableOpacity
               style={[
@@ -883,9 +874,7 @@ const PersonalInfo = () => {
             >
               <Text style={{ textAlign: "right", width: "100%" }}>{dob}</Text>
             </TouchableOpacity>
-            {dobError && (
-              <Text style={styles.error}>پیدائش کی تاریخ لکھیں</Text>
-            )}
+
             <View
               style={{
                 alignItems: "flex-start",
@@ -917,7 +906,7 @@ const PersonalInfo = () => {
               }}
             >
               {/* <Divider /> */}
-              {image && name && dob && gender ? (
+              {image && name ? (
                 <TouchableOpacity onPress={handleNext}>
                   <ActiveButton text="آگے بڑھیں" />
                 </TouchableOpacity>

@@ -361,8 +361,6 @@ const PersonalInfo = () => {
     if (
       mobilenumber &&
       name &&
-      gender &&
-      dob &&
       countryid &&
       provinceid &&
       profession &&
@@ -371,7 +369,7 @@ const PersonalInfo = () => {
       value &&
       image
     ) {
-      console.log("all required data is provided! ");
+      // console.log("all required data is provided! ");
       setLoader(true);
       dispatch(
         signUp({
@@ -416,12 +414,6 @@ const PersonalInfo = () => {
 
   const errorHandler = () => {
     console.log("yes");
-    if (!name) {
-      setNameError(true);
-    }
-    if (!gender) {
-      setGenderError(true);
-    }
     if (!dob) {
       setDobError(true);
     }
@@ -434,12 +426,7 @@ const PersonalInfo = () => {
     if (name) {
       setNameError(false);
     }
-    if (gender) {
-      setGenderError(false);
-    }
-    if (dob) {
-      setDobError(false);
-    }
+
     if (image) {
       setImageError(false);
     }
@@ -514,8 +501,7 @@ const PersonalInfo = () => {
               value={name}
               onChangeText={(text) => setName(text)}
             />
-            {nameError && <Text style={styles.error}>Name is required</Text>}
-            <Text style={styles.text}> Gender </Text>
+            <Text style={styles.text}> Gender (Optional)</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -588,10 +574,9 @@ const PersonalInfo = () => {
                 {/** id of farmer is 1, of agent is 2  */}
               </View>
             </View>
-            {genderError && (
-              <Text style={styles.error}>Gender is required</Text>
-            )}
-            <Text style={styles.text}>Date of Birth </Text>
+            <Text style={[styles.text, { marginTop: hp(3) }]}>
+              Date of Birth (Optional)
+            </Text>
 
             <TouchableOpacity
               style={[styles.inputContainer, { marginBottom: hp("1") }]}
@@ -599,9 +584,6 @@ const PersonalInfo = () => {
             >
               <Text style={{ width: "100%" }}>{dob}</Text>
             </TouchableOpacity>
-            {dobError && (
-              <Text style={styles.error}>Date of Birth is required</Text>
-            )}
             <View
               style={{
                 alignItems: "flex-start",
@@ -633,7 +615,7 @@ const PersonalInfo = () => {
               }}
             >
               {/* <Divider /> */}
-              {image && name && dob && gender ? (
+              {image && name ? (
                 <TouchableOpacity onPress={handleNext}>
                   <ActiveButton text="Next" />
                 </TouchableOpacity>
